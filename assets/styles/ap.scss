@@ -1,0 +1,11 @@
+@import "~@picocss/pico";
+@import "./fonts/fonts.scss";
+@import "./_vars/vars";
+@import "./components/nav";
+@import "./components/_header";
+@import "./components/_footer";
+@import "./components/_trick";
+@import "./layouts/main";
+@import "./layouts/home";
+// media queries
+@import "./mediaqueries.scss";
