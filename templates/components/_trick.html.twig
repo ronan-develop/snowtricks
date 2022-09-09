@@ -1,0 +1,14 @@
+<article>
+  <img
+    src="uploads/images/tricks/{{ trick.image }}"
+    alt="image {{ trick.image }}"
+  />
+  <div class="desc"></div>
+  <footer>
+    <a href="/trick/{{ trick.slug }}">
+      <button style="z-index: 0">
+        {{ trick.name | excerpt(12) }}
+      </button>
+    </a>
+  </footer>
+</article>

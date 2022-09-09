@@ -14,7 +14,7 @@
         <span class="remove-position"></span>
         <div class="container tricks">
     
-          {% for trick in tricks %} {% include "components/trick.html.twig" with
+          {% for trick in tricks %} {% include "components/_trick.html.twig" with
           {"trick": trick } %} {% endfor %}
         </div>
         {% endblock mainContainer %}
