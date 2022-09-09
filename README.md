@@ -5,8 +5,8 @@
 
 Pourquoi deux repository ?
 
-Dans la premiere version j'ai rencontré un souci avec le versioning de la base
-de donnée du à :
+Pour suivre la timeline de tous le commits car dans la premiere version j'ai
+rencontré un souci avec le versioning de la base de donnée du à :
 
 ```bash
 git reset --hard
@@ -43,7 +43,7 @@ npm run build
 # compilation sur un server
 npm run dev
 # compilation avec refresh du navigateur
-npm run dev --server
+npm run dev-server
 # écoute de modification
 npm run watch
 ```
