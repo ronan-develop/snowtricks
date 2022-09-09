@@ -2,10 +2,10 @@
 [initial repo](https://gitlab.com/ron2cuba/p6_snowtricks)
 # p6_Snowtricks
 
-## Requirements :
+## Requirements
 
-- php8.1
-- Composer
-- Symfony CLI
-- DOCKER
-- DOCKER-compose
+-  php8.1
+-  Composer
+-  Symfony CLI
+-  DOCKER
+-  DOCKER-compose
