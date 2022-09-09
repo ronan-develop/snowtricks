@@ -20,4 +20,15 @@ class TrickController extends AbstractController
             'trick' => $trick,
         ]);
     }
+
+    #[Route('/tricks', name: 'app_tricks')]
+    public function tricks(TrickRepository $trickRepository, Request $request): Response
+    {
+        $tricks = $trickRepository->findAll();
+        
+        return $this->render('tricks/index.html.twig', [
+            'tricks' => $tricks,
+        ]);
+    }
+
 }
