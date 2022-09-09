@@ -18,8 +18,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 
 class TrickCrudController extends AbstractCrudController
 {
-    public const TRICK_BASE_PATH = 'uploads/tricks';
-    public const TRICK_UPLOAD_DIR = 'public/uploads/tricks';
+    public const TRICK_BASE_PATH = 'uploads/tricks/';
+    public const TRICK_UPLOAD_DIR = 'public/uploads/tricks/';
 
     public function __construct(private SluggerInterface $slugger)
     {
