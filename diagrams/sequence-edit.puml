@@ -1,0 +1,43 @@
+@startuml
+skinparam backgroundcolor AntiqueWhite/#EBAF10
+scale 650 width
+
+skinparam class {
+    BackgroundColor #F2621F
+    ArrowColor #631FF2
+    BorderColor #DB2790
+}
+
+header ""
+
+TITLE " Sequence edit one trick"
+
+actor ConnectedUser
+
+box "Application" #F7F2E0
+
+participant System #FFBBBB
+database Database #DarkSalmon
+
+ConnectedUser -> System: Request edit a trick
+activate System #Salmon
+System --> ConnectedUser: Response :200
+
+alt #Green valid form
+
+    ConnectedUser -> System: Submit valid form
+    System -> Database: Request Update
+    activate Database #DarkSalmon
+    Database --> System : Response : 200
+    deactivate Database
+    System --> ConnectedUser : Success message
+
+else #Red invalid form
+    ConnectedUser -> System: Submit invalid form
+    System -> ConnectedUser: display fields in errors
+end
+
+deactivate System
+
+
+@enduml

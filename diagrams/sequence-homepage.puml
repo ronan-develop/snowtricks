@@ -1,0 +1,52 @@
+@startuml
+actor User
+
+Title "Homepage"
+
+box "Application" #F7F2E0
+
+participant System #FFBBBB
+database Database #DarkSalmon
+
+User -> System : Browse homepage
+activate System #FFBBBB
+
+System ->o Database: Request all Tricks name
+activate Database #DarkSalmon
+Database --> System: Response
+System --> User: Display homepage\nwith tricks list
+
+alt #Green connnected user
+
+    User -> System: click on the pen
+    System --> User: display form to update a trick
+    User -> System: Validate Form
+    System ->o Database: persists data
+
+else #gold not connected user
+    User -> System: Browse login page
+    System --> User: Display login form
+    User -> System: Submit login form
+    System -> Database: Request Authentication
+    Database --> System : Succes
+    System --> User : display homepage
+
+else #cyan not registered user
+    User -> System: Browse register page
+    System -> User: Display register form
+    User -> System: Submit register form
+    System -> Database: Request Create account
+    Database --> System : Success
+    System -->User : dislpay Success on Homepage
+
+else #red Failure
+
+   User -> System: submit login form
+   System -> Database: Request: Authentication
+   Database --> System: Response Exception
+   System --> User: display Error message
+
+end
+
+
+@enduml
