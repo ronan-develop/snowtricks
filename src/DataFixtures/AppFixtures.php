@@ -8,7 +8,6 @@ use App\Entity\Trick;
 use DateTimeImmutable;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use PhpParser\Node\Stmt\Catch_;
 
 class AppFixtures extends Fixture
 {
@@ -22,10 +21,11 @@ class AppFixtures extends Fixture
         $trick->setCreatedAt(
             new DateTimeImmutable("now", new DateTimeZone('Europe/Paris'))
         )->setName('Regular')
+        ->setSlug("stances")
         ->setDescription("Rider avec le pied gauche devant dans sa position naturelle")
-        ->setImage("/public/uploads/regular.jpg");
+        ->setImage("regular.jpg");
         $manager->persist($trick);
-        
+
         $manager->flush();
     }
 }
