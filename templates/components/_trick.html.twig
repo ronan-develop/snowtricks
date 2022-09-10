@@ -1,0 +1,19 @@
+<article>
+  <img
+    src="uploads/tricks/{{ trick.image }}"
+    alt="image {{ trick.image }}"
+  />
+  <div class="desc"></div>
+  <footer>
+    <a href="/trick/{{ trick.slug }}">
+      <button style="z-index: 0">
+        <i class="fa-solid fa-eye"></i>
+        {% if trick.name |length > 10 %}
+          {{ trick.name | excerpt(10) }}
+        {% else %}
+          {{ trick.name }}
+        {% endif %}
+      </button>
+    </a>
+  </footer>
+</article>
