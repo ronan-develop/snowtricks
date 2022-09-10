@@ -1,0 +1,31 @@
+@startuml
+skinparam backgroundcolor AntiqueWhite/#EBAF10
+scale 650 width
+
+skinparam class {
+    BackgroundColor #F2621F
+    ArrowColor #631FF2
+    BorderColor #DB2790
+}
+
+header ""
+
+TITLE " Sequence browse a trick
+
+actor User
+
+box "Application" #F7F2E0
+
+participant System #FFBBBB
+database Database #DarkSalmon
+
+User -> System :click on a trick
+activate System #Salmon
+System ->o Database: Request Content
+activate Database #Darksalmon
+Database --> System: Response: 200
+deactivate Database
+System --> User: display one trick
+deactivate System
+
+@enduml

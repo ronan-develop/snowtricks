@@ -1,0 +1,51 @@
+@startuml
+skinparam backgroundcolor AntiqueWhite/#EBAF10
+scale 650 width
+
+skinparam class {
+    BackgroundColor #F2621F
+    ArrowColor #631FF2
+    BorderColor #DB2790
+}
+
+header ""
+
+TITLE "Sequence forgotten password"
+
+actor ConnectedUser
+
+box "Application" #F7F2E0
+
+participant System #FFBBBB
+database Database #DarkSalmon
+participant Mailer #Salmon
+
+ConnectedUser -> System: Browse forgotten password
+System --> ConnectedUser: Display reset form
+
+alt #green valid form
+ConnectedUser -> System: submit
+activate System #Salmon
+System -> Database: Request to find user
+activate Database #DarkSalmon
+Database --> System: Response: 200
+deactivate Database
+System -> Database: Request a token for user
+activate Database #DarkSalmon
+Database -> System : Reponse :200
+deactivate Database
+System -> Mailer: Request send Email
+activate Mailer #SaddleBrown
+Mailer --> System: Response 200
+Mailer --> ConnectedUser: Send link to reset
+deactivate Mailer
+deactivate System
+
+else #red invalid form
+ConnectedUser -> System: submit
+activate System #Salmon
+System --> ConnectedUser : Display fields in errors
+deactivate System
+
+end
+@enduml

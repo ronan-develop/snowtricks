@@ -1,0 +1,101 @@
+@startuml Classes diagram
+
+skinparam backgroundcolor AntiqueWhite/#EBAF10
+scale 650 width
+
+skinparam class {
+    BackgroundColor #F2621F
+    ArrowColor #631FF2
+    BorderColor #DB2790
+}
+
+header ""
+
+TITLE "Classes diagram"
+
+class Trick {
+    # protected name
+    # protected description
+    ====
+    # protected categoryId
+    # protected userId
+    # protected imageUrl
+    # protected videoUrl
+    == Methods ==
+    + public getUsername()
+    + public getDescription()
+    + public getCategory()
+}
+
+class Image {
+    # protected url
+    == Methods ==
+    + public getUrl()
+}
+
+class Video {
+ # protected url
+    == Methods ==
+    + public getUrl()
+}
+
+class Message {
+    # protected created_at
+    # protected content
+    ====
+    # protected userId
+    # protected trickId
+    == Methods ==
+    + public getAuthor()
+    + public getCreated_at()
+    + public getContent()
+}
+
+class User {
+    # protected unsername
+    # protected email
+    # protected password
+    # protected role
+    # protected photo
+    # protected token
+    == Methods ==
+    + public getUsername()
+    + public getEmail()
+    + public getPassword()
+    + public getRole()
+    + public getPhoto()
+    + public getToken()
+}
+
+class T_R_Role {
+    string T_R_Admin
+    string T_R_Subscriber
+}
+
+class Category {
+    # protected name
+    == Methods ==
+    + public getName()
+}
+
+
+' ------------------------ Memo ------------------------
+' si je créé un trick je créé les composants
+' les composants peuvent être créé avant un agrégat
+' agrégation pas d'appartenance o
+' composition imlpique destruction *
+' message -> trick : trick accede a une instance de message
+' ligne pointillés montre dépendance
+' ligne continue montre association
+' ------------------------ Memo ------------------------
+
+Trick "0..*" <..o "1" Category : belongs
+Trick " 1 " *-> "0..*" Message :has
+User "1" --o "1" T_R_Role : is
+User "1" - "0..*" Trick : > create
+User "1" .. "0..*" Message : wrote >
+Trick "1" *--> "1..*" Image : has
+Video "1..*" <-up-* "1" Trick : has
+User *-Up-> Image
+
+@enduml

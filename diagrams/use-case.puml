@@ -1,0 +1,41 @@
+@startuml
+
+skinparam backgroundcolor AntiqueWhite/#EBAF10
+scale 800 width
+
+skinparam class {
+    BackgroundColor #F2621F
+    ArrowColor #631FF2
+    BorderColor #DB2790
+}
+
+skinparam actorStyle awesome
+
+TITLE "Possibles operations"
+
+:User: as u
+:Admin: as a
+
+interface moderate
+
+usecase connection as "
+connect to your account
+==
+fill in the login form
+"
+
+u -left- (add a trick)
+(message on tricks) -down-  u 
+u -right- (list of all his trick)
+u -up- (update bio)
+a -up-|> u
+a -up- moderate
+
+moderate ..> (Users): handle
+moderate ..> (content): handle
+
+connection <.. (list of all his tricks): include <
+connection <.. (add a trick): include <
+connection <.. (message on tricks):< include
+connection <.. (update bio) :< include
+@enduml
