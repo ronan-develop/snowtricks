@@ -18,3 +18,7 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 node_modules
+
+###< build folder ###
+/public/build
+###>build folder ###
