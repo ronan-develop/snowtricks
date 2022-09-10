@@ -31,7 +31,7 @@
       <ul class="side-content">
         <a class="cross" onclick="event.preventDefault()">&times;</a>
         <li><p class="title">Snowtricks</p></li>
-        <li><a href="/">Home</a></li>
+        <li><a href="{{path('app_home')}}">Home</a></li>
         <li><a href="">Tricks</a></li>
         <li><a href="">Sign in</a></li>
         <li><a href="">Sign up</a></li>
@@ -45,10 +45,10 @@
     <li><strong>Snowtricks</strong></li>
   </ul>
   <ul>
-    <li><a href="/">Home</a></li>
+    <li><a href="{{path('app_home')}}">Home</a></li>
     <li><a href="">Tricks</a></li>
-    <li><a href="">Sign in</a></li>
-    <li><a href="">Sign up</a></li>
+    <li><a href="{{path('app_login')}}">Sign in</a></li>
+    <li><a href="{{path('app_register')}}">Sign up</a></li>
     {% if is_granted('ROLE_ADMIN') %}
     <li>
       <a href="{{ path('admin') }}"><i class="fa-solid fa-user"></i></a>
