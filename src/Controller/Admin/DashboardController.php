@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\User;
 use App\Entity\Trick;
 use App\Entity\Category;
 use App\Controller\Admin\TrickCrudController;
@@ -57,6 +58,10 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Voir les Tricks', 'fas fa-eye', Trick::class),
         ]);
 
+        yield MenuItem::section(('Users'));
+        yield MenuItem::subMenu('', 'fas fa-bars')->setSubItems([
+            MenuItem::linkToCrud('Voir les utilisateurs', 'fas fa-eye', User::class)
+        ]);
     }
 
     public function configureActions():Actions
