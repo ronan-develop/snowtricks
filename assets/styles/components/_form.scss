@@ -9,22 +9,22 @@ form {
 
         color: white;
     }
-    // background-image: url('../../img/background.jpg');
-
+    
     article {
 
         background-image: url('../../img/puff.jpg');
-        
+
         input {
-            
+
             background-color: opacify($color: #ffffff8c, $amount: 0);
             border: 1px solid white;
         }
 
-        label[for=inputUsername], label[for=inputPassword] {
+        label[for=inputUsername],
+        label[for=inputPassword] {
 
             color: $gray;
             font-family: trykker, sans-serif;
         }
     }
- }
+}

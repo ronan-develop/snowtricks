@@ -82,27 +82,10 @@ body {
                 0 9px 7px #302314;
         }
 
-        // article {
-
-        //     margin-left: auto;
-        //     margin-right: auto;
-        // }
-
-        // .alert {
-
-        //     box-shadow: $shadow;
-        //     padding: 1rem;
-        //     border-radius: .5rem;
-        // }
-
-        // .alert-success {
-
-        //     background-color: $success;
-        // }
-
-        // .alert-danger {
-
-        //     background-color: $danger;
-        // }
     }
+}
+
+body > main > article {
+
+    margin: 0 auto;
 }
