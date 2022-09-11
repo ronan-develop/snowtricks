@@ -1,5 +1,59 @@
 body {
 
+    .message {
+
+        .alert {
+
+            box-shadow: $shadow;
+            padding: 1rem;
+            border-radius: .5rem;
+        }
+        
+        .alert-success {
+            
+            background-color: $success;
+        }
+
+        .alert-danger {
+
+            background-color: $danger;
+        }
+    }
+
+    .alert {
+
+        box-shadow: $shadow;
+        padding: 1rem;
+        border-radius: .5rem;
+    }
+    
+    .alert-success {
+        
+        background-color: $success;
+    }
+
+    .alert-danger {
+
+        background-color: $danger;
+    }
+    .alert {
+
+        box-shadow: $shadow;
+        padding: 1rem;
+        border-radius: .5rem;
+    }
+    
+    .alert-success {
+        
+        background-color: $success;
+    }
+
+    .alert-danger {
+
+        background-color: $danger;
+    }
+
+
     .hide {
 
         display: none;
@@ -28,14 +82,27 @@ body {
                 0 9px 7px #302314;
         }
 
-        article {
+        // article {
 
-            margin-left: auto;
-            margin-right: auto;
-        }
+        //     margin-left: auto;
+        //     margin-right: auto;
+        // }
 
-        .tricks {
-            // tricks design here
-        }
+        // .alert {
+
+        //     box-shadow: $shadow;
+        //     padding: 1rem;
+        //     border-radius: .5rem;
+        // }
+
+        // .alert-success {
+
+        //     background-color: $success;
+        // }
+
+        // .alert-danger {
+
+        //     background-color: $danger;
+        // }
     }
 }

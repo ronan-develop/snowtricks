@@ -5,25 +5,6 @@ form {
     align-items: center;
     flex-direction: column;
 
-    .alert {
-
-        box-shadow: $shadow;
-        padding: 1rem;
-        border-radius: .5rem;
-    }
-    
-    .alert-success {
-        
-        background-color: $success;
-    }
-
-    .alert-danger {
-
-        background-color: $danger;
-    }
-
-    
-
     h2 {
 
         color: white;
