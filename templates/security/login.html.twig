@@ -2,16 +2,19 @@
 body %}
 <main class="container">
   <form method="post">
-    {% if error %}
-    <div class="alert alert-danger">
-      {{ error.messageKey|trans(error.messageData, 'security') }}
-    </div>
-    {% endif %} {% if app.user %}
+    <div class="message">
+      {% if app.user %}
     <div class="mb-3">
       Vous êtes désormais connecté comme {{ app.user.userIdentifier }},
       <a href="{{ path('app_logout') }}">Logout</a>
     </div>
     {% endif %}
+    {% if error %}
+    <div class="alert alert-danger">
+      {{ error.messageKey|trans(error.messageData, 'security') }}
+    </div>
+    {% endif %}
+    </div>
 
     <article>
       <h2 class="h2">Connexion :</h2>
