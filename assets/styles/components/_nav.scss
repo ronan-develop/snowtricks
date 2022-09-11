@@ -1,9 +1,15 @@
 .computer {
 
-    .fa-user {
-        font-size: 1.25rem;
-        margin-right: 1rem;
-        margin-left: .5rem;
+    ul {
+
+        li {
+
+            .fa-user-slash {
+
+                margin: 0 1.5rem;
+                font-size: 1.5rem;
+            }
+        }
     }
 
     display: none;
