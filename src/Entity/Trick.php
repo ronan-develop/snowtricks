@@ -40,6 +40,9 @@ class Trick
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'tricks')]
     private Collection $category;
 
+    #[ORM\ManyToOne(inversedBy: 'tricks')]
+    private ?User $owner = null;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -154,6 +157,18 @@ class Trick
     public function removeCategory(Category $category): self
     {
         $this->category->removeElement($category);
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }
