@@ -3,25 +3,27 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Trick;
+use App\Repository\TrickRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class TrickCrudController extends AbstractCrudController
 {
     public const TRICK_BASE_PATH = 'uploads/tricks/';
     public const TRICK_UPLOAD_DIR = 'public/uploads/tricks/';
 
-    public function __construct(private SluggerInterface $slugger)
+    public function __construct(private SluggerInterface $slugger, private TrickRepository $trickRepository)
     {
     }
 
@@ -65,21 +67,20 @@ class TrickCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id')->hideOnForm(),
-            AssociationField::new('category')
-            ->setLabel('Catégorie'),
-            TextField::new('name', 'Nom du trick'),
-            TextareaField::new('Description'),
+        yield IdField::new('id')->hideOnForm();
+        yield AssociationField::new('category')
+        ->setLabel('Catégorie');
+        yield TextField::new('name', 'Nom du trick');
+        yield TextareaField::new('Description');
 
-            ImageField::new('image')
-            ->setBasePath(self::TRICK_BASE_PATH)
-            ->setUploadDir(self::TRICK_UPLOAD_DIR),
+        yield ImageField::new('image')
+        ->setBasePath(self::TRICK_BASE_PATH)
+        ->setUploadDir(self::TRICK_UPLOAD_DIR);
 
-            SlugField::new('slug')->setTargetFieldName("name")
-            ->hideOnForm(),
-            DateTimeField::new('updatedAt')->onlyOnIndex()->setLabel('mis à jour le'),
-            DateTimeField::new('CreatedAt')->onlyOnIndex()->setLabel('date de création'),
-        ];
+        yield SlugField::new('slug')->setTargetFieldName("name")
+        ->hideOnForm();
+        yield DateTimeField::new('updatedAt')->onlyOnIndex()->setLabel('mis à jour le');
+        yield DateTimeField::new('CreatedAt')->onlyOnIndex()->setLabel('date de création');        
     }
+
 }

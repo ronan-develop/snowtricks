@@ -45,7 +45,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToDashboard('panneau admin', 'fa-solid fa-dashboard'),
             MenuItem::linkToUrl('retour au site', 'fa-solid fa-house', $this->generateUrl('app_home')),
         ]);
-        
+
         yield MenuItem::section('Categories');
         yield MenuItem::subMenu('', 'fas fa-bars')->setSubItems([
             MenuItem::linkToCrud('ajout d\'une catégorie', 'fas fa-plus', Category::class)->setAction(Crud::PAGE_NEW),
@@ -58,16 +58,18 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Voir les Tricks', 'fas fa-eye', Trick::class),
         ]);
 
-        yield MenuItem::section(('Users'));
-        yield MenuItem::subMenu('', 'fas fa-bars')->setSubItems([
-            MenuItem::linkToCrud('Voir les utilisateurs', 'fas fa-eye', User::class)
-        ]);
+        if(in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
+            yield MenuItem::section(('Users'));
+            yield MenuItem::subMenu('', 'fas fa-bars')->setSubItems([
+                MenuItem::linkToCrud('Voir les utilisateurs', 'fas fa-eye', User::class)
+            ]);
+        }
+        
     }
 
-    public function configureActions():Actions
+    public function configureActions(): Actions
     {
         return parent::configureActions()
         ->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
-
 }

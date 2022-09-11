@@ -48,14 +48,9 @@ class UserCrudController extends AbstractCrudController
         });
     }
 
-    /*
-    public function configureFields(string $pageName): iterable
+    public function configureCrud(Crud $crud): Crud
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
+        return $crud
+            ->setEntityPermission('ROLE_ADMIN');
     }
-    */
 }
