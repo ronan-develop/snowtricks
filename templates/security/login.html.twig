@@ -1,5 +1,6 @@
-{% extends 'base.html.twig' %} {% block title %}Log in!{% endblock %} {% block
+{% extends 'base.html.twig' %} {% block title %}Connexion{% endblock %} {% block
 body %}
+{{ include('components/_navbar.html.twig') }}
 <main class="container">
   <form method="post">
     <div class="message">
@@ -56,7 +57,7 @@ body %}
       </div>
       #}
 
-      <button class="btn btn-lg btn-primary" type="submit">Sign in</button>
+      <button class="btn btn-lg btn-primary" type="submit">Connexion</button>
     </article>
   </form>
 </main>
