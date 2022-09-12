@@ -1,20 +1,56 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Hello AccountController!{% endblock %}
-
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/ronln/Desktop/openclassrooms/snowtricks/src/Controller/AccountController.php'|file_link(0) }}">src/Controller/AccountController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/ronln/Desktop/openclassrooms/snowtricks/templates/account/index.html.twig'|file_link(0) }}">templates/account/index.html.twig</a></code></li>
-    </ul>
+{% extends 'base.html.twig' %} {% block title %}Hello AccountController!{%
+endblock %} {% block body %}
+{{ include("components/_navbar.html.twig") }}
+<div class="container">
+    <h1>Bienvenue {{ user_name }}</h1>
+    <div class="container">
+        <input type="button" value="Créer une categorie">
+        <input type="button" value="Créer un trick">
+    </div>
+  <table>
+    <h2>Mes tricks</h2>
+    <thead>
+      <tr>
+        <th scope="col" scope="row">#</th>
+        <th scope="col">Tricks</th>
+        <th scope="col">Categorie</th>
+        {% for trick in tricks %}
+        {% if trick |length > 1 %}
+        <th scope="col">Images</th>
+        {% else %}
+        <th scope="col">Image</th>
+        {% endif %}            
+        {% endfor %}
+        <th scope="col">description</th>
+        <th scope="col">Slug</th>
+        <th scope="col"><i class="fa-sharp fa-solid fa-gears"></i> Editer</th>
+        <th scope="col"><i class="fa-solid fa-trash"></i> Supprimer</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for trick in tricks %}
+      <tr>
+        <th scope="col" scope="row">#</th>
+        <th>{{ trick.name }}</th>
+        <td>
+            {% for categorie in trick.category %}
+                <span class="badge">{{categorie.name}}</span>
+            {% endfor %}
+        </td>
+        <td>
+            {% for image in trick.images %}
+                <span>{{ image.name }}</span>
+            {% endfor %}
+        </td>
+        <td>{{ trick.description | excerpt(10) }}</td>
+        <td>{{ trick.slug }}</td>
+        <td><input type="button" value="Editer"></td>
+        <td><input type="button" value="Suppr."></td>
+        <td><a href="trick/{{ trick.slug}}"><button><i class="fa-solid fa-eye"></i> Voir</button></a></td>
+      </tr>
+    </tbody>
+    {% endfor %}
+  </table>
 </div>
 {% endblock %}
