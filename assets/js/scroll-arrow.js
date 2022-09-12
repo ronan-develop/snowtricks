@@ -11,24 +11,23 @@ let firstArticle = document.querySelector(
 
 // scroll event
 addEventListener("scroll", (e) => {
-    
+
     e.preventDefault();
-    scrollY < h2.offsetTop + h2.offsetHeight ? arrowUp.classList.add('hide') : arrowUp.classList.remove('hide');
-    scrollY > document.querySelector('section').offsetTop ? arrowDown.classList.add('hide') : arrowDown.classList.remove('hide');
+    if (h2) {
+        scrollY < h2.offsetTop + h2.offsetHeight ? arrowUp.classList.add('hide') : arrowUp.classList.remove('hide');
+        scrollY > document.querySelector('section').offsetTop ? arrowDown.classList.add('hide') : arrowDown.classList.remove('hide');
+    }
 });
 
 // event listener on arrows
-arrowDown.addEventListener("click", scrollToTricks);
-arrowUp.addEventListener("click", scrollUp);
+if (arrowDown) arrowDown.addEventListener("click", scrollToTricks);
+if (arrowUp) arrowUp.addEventListener("click", scrollUp);
 
 // articles node
 let articles = document.querySelectorAll("article");
 
 // hide arrow-uip for less than 15 articles
-if (articles.length < 15) {
-
-    arrowUp.classList.add("hide");
-}
+if (arrowUp && articles.length < 15) arrowUp.classList.add("hide");
 
 /**
  * Click on arrow-down scroll to tricks-anchor
