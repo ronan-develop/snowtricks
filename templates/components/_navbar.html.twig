@@ -32,7 +32,7 @@
         <a class="cross" onclick="event.preventDefault()">&times;</a>
         <li><p class="title">Snowtricks</p></li>
         <li><a href="{{path('app_home')}}">Home</a></li>
-        <li><a href="">Tricks</a></li>
+        <li><a href="{{path('app_tricks')}}">Tricks</a></li>
         {% if app.user %}
           {% for key in app.user.roles %}
             {% if key is same as "ROLE_USER" %}
@@ -46,8 +46,8 @@
             {% endif %}
           {% endfor %}
         {% else %}
-      <li><a href="{{path('app_profile')}}">Connection</a></li>
-      <li><a href="{{path('app_register')}}">Enregistrement</a></li>
+      <li><a href="{{path('app_profile')}}">Connexion</a></li>
+      <li><a href="{{path('app_register')}}">Inscription</a></li>
       {% endif %}
       </ul>
     </ul>
@@ -60,7 +60,7 @@
   </ul>
   <ul>
     <li><a href="{{path('app_home')}}">Home</a></li>
-    <li><a href="">Tricks</a></li>
+    <li><a href="{{path('app_tricks')}}">Tricks</a></li>
     {% if app.user %}
       {% for key in app.user.roles %}
         {% if key is same as "ROLE_USER" %}
@@ -74,8 +74,8 @@
         {% endif %}
       {% endfor %}
     {% else %}
-    <li><a href="{{path('app_profile')}}">Connection</a></li>
-    <li><a href="{{path('app_register')}}">Enregistrement</a></li>
+    <li><a href="{{path('app_profile')}}">Connexion</a></li>
+    <li><a href="{{path('app_register')}}">Inscription</a></li>
     {% endif %}    
   </ul>
 </nav>
