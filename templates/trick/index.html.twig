@@ -1,10 +1,57 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %}Hello TrickController!{%
+endblock %} {% block body %} {{ include('components/_navbar.html.twig') }}
+<div class="hero">
+        {{ dump(trick) }}
+    <header class="container">
 
-{% block title %}Hello TrickController!{% endblock %}
-
-{% block body %}
-
-<div class="example-wrapper">
-    {{ dump(trick) }}
+        <hgroup>
+            {% if app.user.username == trick.owner  %}
+            {% endif %}
+            <h1>{{ trick.name }}</h1>
+            {% for category in categories %}
+            {% if categories |length > 1 %}
+            <span class="badge">{{ category.name }}</span>        
+            {% else %}
+            <span class="badge">{{ category.name }}</span>
+            {% endif %}
+            {% endfor %}
+        </hgroup>
+        <figure>
+            <img src="/uploads/tricks/{{ trick.image }}" alt="position regular" width="100%" height="auto">
+            <div class="handle">
+                <a href="{{ path('app_account') }}"><i class="fa-solid fa-pen"></i></a>
+                <a href="{{ path('app_account') }}"><i class="fa-solid fa-trash"></i></a>
+            </div>
+    </figure>
+    </header>
 </div>
-{% endblock %}
+
+<div class="container">
+
+    <p>{{ trick.description }}</p>
+
+    <h3>Messages</h3>
+    {% for comment in trick.comments%}
+    <span>{{ date_comment |format_datetime()  }}</span> par <span>{{ comment.user }}</span>
+    <div class="content">
+
+        {{comment.content}}
+
+    </div>
+    {% endfor %}
+
+</div>
+{% if app.user %}
+<div class="container">
+  <span class="line"></span>
+  <h3>Ajouter un commentaire :</h3>
+  <article
+    class="comment-card"
+    style="background: none; margin: auto; padding: 0"
+  >
+    {{ form_start(comment_form) }}
+    {{ form_row(comment_form.content) }}
+    {{ form_end(comment_form) }}
+  </article>
+</div>
+{% endif %} {% endblock %}
