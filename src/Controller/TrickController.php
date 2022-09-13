@@ -8,12 +8,10 @@ use DateTimeImmutable;
 use App\Entity\Comment;
 use App\Form\CommentFormType;
 use App\Repository\TrickRepository;
-use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TrickController extends AbstractController
@@ -40,7 +38,7 @@ class TrickController extends AbstractController
                 $comment
                 ->setCreatedAt(new DateTimeImmutable("now", new DateTimeZone('Europe/Paris')))
                 ->setUser($user);
-                
+
                 $this->entityManager->persist($comment);
                 $this->entityManager->flush();
             }
@@ -52,11 +50,10 @@ class TrickController extends AbstractController
                 'user' => $this->getUser()->getUserIdentifier()
             ]);
         }
-        
+
         return $this->render('trick/index.html.twig', [
             'trick' => $trick,
         ]);
-
     }
 
     #[Route('/tricks', name: 'app_tricks')]
