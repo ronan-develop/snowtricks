@@ -59,15 +59,24 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Voir les Tricks', 'fas fa-eye', Trick::class),
         ]);
 
-        yield MenuItem::section(('Comptes'));
-        yield MenuItem::subMenu('Tous les comptes', 'fas fa-bars')->setSubItems([
-            MenuItem::linkToCrud('Voir les utilisateurs', 'fas fa-user-friends', User::class)
-        ]);
+        if ($this->isGranted('ROLE_USER')) {
+            yield MenuItem::section(('Mon compte'));
+            yield MenuItem::subMenu('Gestion de mon compte', 'fas fa-bars')->setSubItems([
+                MenuItem::linkToCrud('accéder', 'fas fa-user-friends', User::class)
+            ]);
+        }
+        if ($this->isGranted('ROLE_ADMIN')) {
+            yield MenuItem::section(('Comptes'));
+            yield MenuItem::subMenu('Tous les comptes', 'fas fa-bars')->setSubItems([
+                MenuItem::linkToCrud('Voir les utilisateurs', 'fas fa-user-friends', User::class)
+            ]);
+        }
 
+        
         if ($this->isGranted('ROLE_ADMIN')) {
             yield MenuItem::section('Commentaires');
             yield MenuItem::subMenu("Commentaires", "fas fa-bars")->setSubItems([
-                MenuItem::linkToCrud('Voir tout', "fas fa-comments", Comment::class)
+                MenuItem::linkToCrud('Voir tout', "fas fa-comments", Comment::class)->setAction(Crud::PAGE_NEW)
             ])
             ;
         }
