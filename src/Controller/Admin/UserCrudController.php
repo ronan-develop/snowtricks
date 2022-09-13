@@ -3,13 +3,20 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
+/**
+ * @method User getUser
+ */
 class UserCrudController extends AbstractCrudController
 {
+    public function __construct(private UserRepository $userRepository)
+    {
+    }
     public static function getEntityFqcn(): string
     {
         return User::class;
@@ -17,6 +24,15 @@ class UserCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        if (!$this->isGranted('ROLE_ADMIN') && $this->getUser()->getId() !== $this->userRepository->findBy(['id' => $this->getUser()->getId()])) {
+            return $actions
+            ->remove(Crud::PAGE_INDEX, Action::DELETE)
+            ->remove(Crud::PAGE_INDEX, Action::EDIT)
+            ->remove(Crud::PAGE_DETAIL, Action::DELETE)
+            ->remove(Crud::PAGE_DETAIL, Action::EDIT)
+            ;
+        }
+
         return $actions
         ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
             return $action->setIcon('fa-fw fa-solid fa-plus')
@@ -51,6 +67,8 @@ class UserCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityPermission('ROLE_ADMIN');
+            ->setEntityPermission('ROLE_USER');
     }
+
+    
 }
