@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Trick;
 use App\Entity\Category;
 use App\Controller\Admin\TrickCrudController;
+use App\Entity\Comment;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -58,13 +59,18 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Voir les Tricks', 'fas fa-eye', Trick::class),
         ]);
 
-        if(in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
-            yield MenuItem::section(('Users'));
-            yield MenuItem::subMenu('', 'fas fa-bars')->setSubItems([
-                MenuItem::linkToCrud('Voir les utilisateurs', 'fas fa-eye', User::class)
-            ]);
+        yield MenuItem::section(('Comptes'));
+        yield MenuItem::subMenu('Tous les comptes', 'fas fa-bars')->setSubItems([
+            MenuItem::linkToCrud('Voir les utilisateurs', 'fas fa-user-friends', User::class)
+        ]);
+
+        if ($this->isGranted('ROLE_ADMIN')) {
+            yield MenuItem::section('Commentaires');
+            yield MenuItem::subMenu("Commentaires", "fas fa-bars")->setSubItems([
+                MenuItem::linkToCrud('Voir tout', "fas fa-comments", Comment::class)
+            ])
+            ;
         }
-        
     }
 
     public function configureActions(): Actions
