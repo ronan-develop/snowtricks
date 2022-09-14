@@ -33,12 +33,12 @@ class Trick
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'tricks')]
     private Collection $category;
-
-    #[ORM\ManyToOne(inversedBy: 'tricks')]
-    private ?User $owner = null;
-
+    
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Image::class)]
     private Collection $images;
+
+    #[ORM\ManyToOne(inversedBy: 'tricks')]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -135,18 +135,6 @@ class Trick
         return $this;
     }
 
-    public function getOwner(): ?User
-    {
-        return $this->owner;
-    }
-
-    public function setOwner(?User $owner): self
-    {
-        $this->owner = $owner;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Image>
      */
@@ -173,6 +161,18 @@ class Trick
                 $image->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

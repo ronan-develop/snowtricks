@@ -105,6 +105,6 @@ class TrickCrudController extends AbstractCrudController
     public function configureFilters(Filters $filters): Filters
     {
         return $filters->add(TextFilter::new('name', 'nom'))
-        ->add(EntityFilter::new('category'));
+        ->add(EntityFilter::new('category', 'catégorie'));
     }
 }
