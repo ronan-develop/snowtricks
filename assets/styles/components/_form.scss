@@ -29,6 +29,19 @@ form {
             color: $gray;
             font-family: trykker, sans-serif;
         }
+
+        button {
+            
+            transition: all 1.5s ease-in-out;
+            background-color: $black;
+            border: none;
+
+            &:hover{
+
+                background-color: white;
+                color: $black;
+            }
+        }
     }
 }
 
