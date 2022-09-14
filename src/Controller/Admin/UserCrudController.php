@@ -11,6 +11,7 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -18,6 +19,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
+use phpDocumentor\Reflection\Types\Iterable_;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -30,17 +32,21 @@ class UserCrudController extends AbstractCrudController
         private UserRepository $userRepository,
         private UserPasswordHasherInterface $userPasswordHasher,
         private EntityRepository $entityRepository
-        )
-    {
+    ) {
     }
     public static function getEntityFqcn(): string
     {
         return User::class;
     }
 
-    function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
-    {
-        if (!$this->isGranted('ROLE_ADMIN') && $this->getUser()->getId() !== $this->userRepository->findBy(['id' => $this->getUser()->getId()])) {
+    public function createIndexQueryBuilder(
+        SearchDto $searchDto,
+        EntityDto $entityDto,
+        FieldCollection $fields,
+        FilterCollection $filters
+    ): QueryBuilder {
+        if (!$this->isGranted('ROLE_ADMIN')
+        && $this->getUser()->getId() !== $this->userRepository->findBy(['id' => $this->getUser()->getId()])) {
             $userId = $this->getUser()->getId();
 
             $queryBuilder = $this->entityRepository->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
@@ -54,6 +60,11 @@ class UserCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $actions
+            ->remove(Crud::PAGE_INDEX, Action::NEW);
+        }
+
         if (!$this->isGranted('ROLE_ADMIN') && $this->getUser()->getId() !== $this->userRepository->findBy(['id' => $this->getUser()->getId()])) {
             return $actions
             ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
@@ -83,10 +94,7 @@ class UserCrudController extends AbstractCrudController
         }
 
         return $actions
-        ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
-            return $action->setIcon('fa-fw fa-solid fa-plus')
-            ->setLabel("Nouvel utilisateur");
-        })
+        
         ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
             return $action
             ->setIcon('fa-solid fa-gears');
@@ -115,8 +123,10 @@ class UserCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
+            
         return $crud
-            ->setEntityPermission('ROLE_USER');
+            ->setEntityPermission('ROLE_USER')
+            ->setPageTitle( Crud::PAGE_NEW, 'Création d\'un utilisateur');
     }
 
     public function configureFields(string $pagename): iterable
@@ -154,15 +164,4 @@ class UserCrudController extends AbstractCrudController
 
         parent::persistEntity($em, $entityInstance);
     }
-    
 }
-
-
-// if (!$this->isGranted('ROLE_ADMIN') && $this->getUser()->getId() !== $this->userRepository->findBy(['id' => $this->getUser()->getId()])) {
-        //     return $actions
-        //     ->remove(Crud::PAGE_INDEX, Action::DELETE)
-        //     ->remove(Crud::PAGE_INDEX, Action::EDIT)
-        //     ->remove(Crud::PAGE_DETAIL, Action::DELETE)
-        //     ->remove(Crud::PAGE_DETAIL, Action::EDIT)
-        //     ;
-        // }
