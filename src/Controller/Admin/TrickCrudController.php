@@ -87,20 +87,6 @@ class TrickCrudController extends AbstractCrudController
         yield TextField::new('name', 'Nom du trick');
         yield TextareaField::new('Description');
 
-        // https://youtu.be/IZGkhCFmxfY?t=2429
-        // https://youtu.be/IZGkhCFmxfY?t=4403
-        // yield ImageField::new('images')
-        // ->setBasePath(self::TRICK_BASE_PATH)
-        // ->setUploadDir(self::TRICK_UPLOAD_DIR);
-        // yield ImageField::new('images')
-        // ->setBasePath(self::TRICK_BASE_PATH)
-        // ->setUploadDir(self::TRICK_UPLOAD_DIR);
-
-        // yield CollectionField::new('images', 'Selectionner une (des) image(s)')
-        // ->setEntryIsComplex(true)
-        // ->setEntryType(ImagesValuesType::class)
-        // ->setTemplatePath('admin/images-crud.html.twig');
-
         yield SlugField::new('slug')->setTargetFieldName("name")
         ->hideOnForm();
         yield DateTimeField::new('updatedAt')->onlyOnIndex()->setLabel('mis à jour le');
