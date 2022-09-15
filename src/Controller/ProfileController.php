@@ -21,6 +21,7 @@ class ProfileController extends AbstractController
             'error' => $error
         ]);
     }
+    
     #[Route('profile/tricks', name: 'app_profile_tricks')]
     public function tricks(Request $request): Response
     {
