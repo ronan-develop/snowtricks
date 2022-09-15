@@ -17,7 +17,12 @@ class TrickEventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            BeforeEntityPersistedEvent::class => 'setTrickCreatedAt',
+            BeforeEntityPersistedEvent::class => [
+                'setTrickCreatedAt'
+            ],
+            BeforeEntityUpdatedEvent::class => [
+                'setTrickUpdatedAt'
+            ]
         ];
     }
 
