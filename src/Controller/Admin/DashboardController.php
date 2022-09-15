@@ -7,6 +7,7 @@ use App\Entity\Trick;
 use App\Entity\Category;
 use App\Controller\Admin\TrickCrudController;
 use App\Entity\Comment;
+use App\Repository\TrickRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -20,7 +21,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 class DashboardController extends AbstractDashboardController
 {
     public function __construct(
-        private AdminUrlGenerator $adminUrlGenerator
+        private AdminUrlGenerator $adminUrlGenerator,
+        private TrickRepository $trickRepository
     ) {
     }
 
@@ -49,14 +51,15 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Categories');
         yield MenuItem::subMenu('', 'fas fa-bars')->setSubItems([
-            MenuItem::linkToCrud('ajout d\'une catégorie', 'fas fa-plus', Category::class)->setAction(Crud::PAGE_NEW),
+            MenuItem::linkToCrud('ajout d\'une catégorie', 'fas fa-plus', Category::class),
             MenuItem::linkToCrud('Voir les catégories', 'fas fa-eye', Category::class),
         ]);
 
         yield MenuItem::section('Tricks');
+
         yield MenuItem::subMenu('', 'fas fa-bars')->setSubItems([
             MenuItem::linkToCrud('ajout d\'un trick', 'fas fa-plus', Trick::class)->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('Voir les Tricks', 'fas fa-eye', Trick::class),
+            MenuItem::linkToCrud('Voir les Tricks', 'fas fa-eye', Trick::class)
         ]);
 
         if ($this->isGranted('ROLE_USER')) {
