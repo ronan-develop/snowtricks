@@ -31,7 +31,6 @@ class UserEventSubscriber implements EventSubscriberInterface
                 ['setHashedPasswordOnCreate'],
                 ['setCreatedAtBeforePersist'],
                 ['setSlugBeforePersist'],
-                ['setEmailBeforePersist'],
             ],
             BeforeEntityUpdatedEvent::class => [
                 ['setHashedPasswordOnUpdate'],
