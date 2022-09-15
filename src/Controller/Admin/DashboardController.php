@@ -7,7 +7,6 @@ use App\Entity\Trick;
 use App\Entity\Category;
 use App\Controller\Admin\TrickCrudController;
 use App\Entity\Comment;
-use App\Repository\TrickRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -22,7 +21,6 @@ class DashboardController extends AbstractDashboardController
 {
     public function __construct(
         private AdminUrlGenerator $adminUrlGenerator,
-        private TrickRepository $trickRepository
     ) {
     }
 
