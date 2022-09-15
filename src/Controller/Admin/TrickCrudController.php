@@ -2,12 +2,9 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Trick;
 use App\Entity\User;
+use App\Entity\Trick;
 use App\Repository\TrickRepository;
-use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
-use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
-use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -22,6 +19,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
 /**
  * @method User getUser
@@ -102,16 +100,22 @@ class TrickCrudController extends AbstractCrudController
         yield IdField::new('id')->hideOnForm()
         ->hideOnIndex();
 
-        yield AssociationField::new('category')
-        ->setLabel('Catégorie');
+        yield AssociationField::new('category', 'Catégorie(s)');
 
         yield TextField::new('name', 'Nom du trick');
-        yield SlugField::new('slug')->setTargetFieldName("name");
+        yield SlugField::new('slug')->setTargetFieldName("name")
+        ->setUnlockConfirmationMessage("Le Slug est généré automatiquement, mais il peut etre modifié");
 
         yield TextareaField::new('Description');
 
-        yield DateTimeField::new('updatedAt')->onlyOnIndex()->setLabel('mis à jour le')->hideOnForm();
-        yield DateTimeField::new('CreatedAt')->onlyOnIndex()->setLabel('date de création')->hideOnForm();
+        yield ImageField::new('images')
+        ->setBasePath(self::TRICK_BASE_PATH)
+        ->setUploadDir(self::TRICK_UPLOAD_DIR)
+        ->setUploadedFileNamePattern('[year]/[month]/[day]/[slug]-[contenthash].[extension]');;
+
+
+        yield DateTimeField::new('updatedAt')->setLabel('mis à jour le')->hideOnForm();
+        yield DateTimeField::new('CreatedAt')->setLabel('date de création')->hideOnForm();
     }
 
     public function configureCrud(Crud $crud): Crud
