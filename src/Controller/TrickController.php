@@ -25,7 +25,6 @@ class TrickController extends AbstractController
     {
         $slug = $request->get('slug');
         $trick = $trickRepository->findOneBy(['slug'=>$slug]);
-        $categories = $trick->getCategory();
 
         if ($this->getUser()) {
             $user = $this->getUser();
@@ -44,8 +43,8 @@ class TrickController extends AbstractController
             }
             return $this->render('trick/index.html.twig', [
                 'trick' => $trick,
+                'categories' =>  $trick->getCategory(),
                 'comment_form' => $form->createView(),
-                'categories' => $categories,
                 'date_comment' => $date_comment,
                 'user' => $this->getUser()->getUserIdentifier()
             ]);

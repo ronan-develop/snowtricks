@@ -1,23 +1,31 @@
 {% extends 'base.html.twig' %} {% block title %}Hello TrickController!{%
 endblock %} {% block body %} {{ include('components/_navbar.html.twig') }}
 <div class="hero">
-        {{ dump(trick) }}
-    <header class="container">
 
+    <header class="container">
+{{ dump(trick) }}
         <hgroup>
-            {% if app.user.username == trick.owner  %}
-            {% endif %}
-            <h1>{{ trick.name }}</h1>
-            {% for category in categories %}
-            {% if categories |length > 1 %}
-            <span class="badge">{{ category.name }}</span>        
-            {% else %}
-            <span class="badge">{{ category.name }}</span>
-            {% endif %}
-            {% endfor %}
+          {% if app.user and app.user.username == trick.user%}
+          <div class="handle">
+            <span class="badge"><i class="fa-solid fa-pen"></i></span>
+            <span class="badge"><i class="fa-solid fa-trash"></i></span>
+          </div>
+          {% endif %}
+          
+          {# <h1>{{ trick.name }}</h1> #}
+
+          {% for category in trick.category %}
+          {% if trick.category |length > 1 %}
+          <span class="badge">{{ category.name }}</span>        
+          {% else %}
+          <span class="badge">{{ category.name }}</span>
+          {% endif %}
+          {% endfor %}
+            
+
         </hgroup>
         <figure>
-            <img src="/uploads/tricks/{{ trick.image }}" alt="position regular" width="100%" height="auto">
+            {# <img src="/uploads/tricks/{{ trick.image }}" alt="position regular" width="100%" height="auto"> #}
             <div class="handle">
                 <a href="{{ path('app_account') }}"><i class="fa-solid fa-pen"></i></a>
                 <a href="{{ path('app_account') }}"><i class="fa-solid fa-trash"></i></a>
@@ -31,14 +39,14 @@ endblock %} {% block body %} {{ include('components/_navbar.html.twig') }}
     <p>{{ trick.description }}</p>
 
     <h3>Messages</h3>
-    {% for comment in trick.comments%}
+    {# {% for comment in trick.comments %}
     <span>{{ date_comment |format_datetime()  }}</span> par <span>{{ comment.user }}</span>
     <div class="content">
 
         {{comment.content}}
 
     </div>
-    {% endfor %}
+    {% endfor %} #}
 
 </div>
 {% if app.user %}
@@ -54,4 +62,6 @@ endblock %} {% block body %} {{ include('components/_navbar.html.twig') }}
     {{ form_end(comment_form) }}
   </article>
 </div>
+{% else %}
+<div class="container"></div>
 {% endif %} {% endblock %}
