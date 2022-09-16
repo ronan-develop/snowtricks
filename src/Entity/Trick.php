@@ -30,12 +30,15 @@ class Trick
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'tricks')]
     private Collection $category;
+    
+    #[ORM\Column(type: 'string', length:255)]
+    private ?string $image = null;
 
-    #[ORM\Column(type:"string", length:255)]
-    private string $image = "";
-
-    #[Vich\UploadableField(mapping: 'tricks', fileNameProperty: 'image')]
+    #[Vich\UploadableField(mapping: 'tricks', fileNameProperty: 'image', size: 'imageSize')]
     private ?File $file = null;
+
+    #[ORM\Column(type: 'integer')]
+    private ?int $imageSize = null;
 
     #[ORM\ManyToOne(inversedBy: 'tricks')]
     private ?User $user = null;
@@ -152,10 +155,12 @@ class Trick
         return $this;
     }
 
-    /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
-     */
-    public function setFile(?File $file = null): void
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    public function setFile(?File $file = null):void
     {
         $this->file = $file;
 
@@ -164,20 +169,23 @@ class Trick
         }
     }
 
-    public function getFile(): ?File
-    {
-        return $this->file;
-    }
-
-    public function getImage(): string
+    public function getImage(): ?string
     {
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(?string $image): void
     {
         $this->image = $image;
+    }
 
-        return $this;
+    public function getImageSize(): ?int
+    {
+        return $this->imageSize;
+    }
+
+    public function setImageSize(?int $imageSize): void
+    {
+        $this->imageSize = $imageSize;
     }
 }
