@@ -11,6 +11,7 @@ import './js/nav';
 import './js/sticky-nav';
 import './js/images';
 import './js/scroll-arrow';
+import './js/comment';
 
 // start the Stimulus application
 import './bootstrap';

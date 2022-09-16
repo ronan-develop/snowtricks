@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\CommentRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CommentRepository;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
@@ -18,10 +19,14 @@ class Comment
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank()]
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    private ?Trick $trick = null;
 
     public function getId(): ?int
     {
@@ -60,6 +65,18 @@ class Comment
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getTrick(): ?Trick
+    {
+        return $this->trick;
+    }
+
+    public function setTrick(?Trick $trick): self
+    {
+        $this->trick = $trick;
 
         return $this;
     }

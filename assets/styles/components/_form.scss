@@ -3,27 +3,50 @@ form {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 
     h2 {
 
         color: white;
     }
-    // background-image: url('../../img/background.jpg');
-
+    
     article {
 
+        // /!\reset default
+        background: none;
+        // /!\reset default
         background-image: url('../../img/puff.jpg');
-        
+
         input {
-            
+
             background-color: opacify($color: #ffffff8c, $amount: 0);
             border: 1px solid white;
         }
 
-        label[for=inputUsername], label[for=inputPassword] {
+        label[for=inputUsername],
+        label[for=inputPassword] {
 
             color: $gray;
             font-family: trykker, sans-serif;
         }
+
+        button {
+            
+            transition: all 1.5s ease-in-out;
+            background-color: $black;
+            border: none;
+
+            &:hover{
+
+                background-color: white;
+                color: $black;
+            }
+        }
     }
- }
+}
+
+.comment-card {
+    
+    box-shadow: none;
+    width: 33vw;
+}

@@ -1,9 +1,15 @@
 .computer {
 
-    .fa-user {
-        font-size: 1.25rem;
-        margin-right: 1rem;
-        margin-left: .5rem;
+    ul {
+
+        li {
+
+            .fa-user-slash {
+
+                margin: 0 1.5rem;
+                font-size: 1.5rem;
+            }
+        }
     }
 
     display: none;
@@ -29,6 +35,7 @@
 
         margin: 0;
         padding: 0;
+
     }
 
     .side-content {
@@ -45,6 +52,20 @@
         padding-left: .5rem;
         transition: .2s;
         box-shadow: $shadow-nav;
+
+        .fa-user-slash {
+
+            font-size: 1.5rem;
+        }
+
+        // li:nth-child(5) {
+
+        //     a {
+
+        //         margin: 0;
+        //     }
+
+        // }
 
         a,
         p {

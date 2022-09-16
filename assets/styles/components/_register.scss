@@ -1,0 +1,44 @@
+article {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../../img/puff.jpg');
+    background-size: cover;
+
+    h2 {
+
+        font-family: russoOne, sans-serif;
+        color: white;
+    }
+
+    input {
+
+        background-color: opacify($color: #ffffff8c, $amount: 0);
+        border: 1px solid white;
+    }
+
+    label {
+
+        color: white;
+    }
+
+    label[for=inputUsername],
+    label[for=inputPassword] {
+
+        color: $gray;
+        font-family: trykker, sans-serif;
+    }
+
+    div:nth-child(5) {
+
+        display: flex;
+        flex-direction: row;
+
+        #registration_form_agreeTerms {
+
+            margin-top: 0.5rem;
+            margin-left: .5rem;
+        }
+    }
+}
