@@ -5,6 +5,8 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     upload_dir: '/uploads'
+    bind:
+        string $uploadDir: '%upload_dir%'
 
 services:
     # default configuration for services in *this* file

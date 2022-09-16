@@ -5,13 +5,16 @@ namespace App\Controller\Admin;
 use App\Entity\User;
 use App\Entity\Trick;
 use App\Repository\TrickRepository;
+use Symfony\Config\VichUploaderConfig;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
@@ -19,17 +22,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
 /**
  * @method User getUser
  */
 class TrickCrudController extends AbstractCrudController
 {
-    public const TRICK_BASE_PATH = 'uploads/tricks/';
-    public const TRICK_UPLOAD_DIR = 'public/uploads/tricks/';
-
-    public function __construct(private SluggerInterface $slugger, private TrickRepository $trickRepository)
+    public function __construct(
+        private SluggerInterface $slugger, private TrickRepository $trickRepository, private  string $uploadDir
+        )
     {
     }
 
@@ -47,8 +48,9 @@ class TrickCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-
-        if (!$this->isGranted('ROLE_ADMIN') && $this->getUser()->getId() !== $this->trickRepository->findBy(['id' => $this->getUser()->getId()])) {
+        if (!$this->isGranted('ROLE_ADMIN') && $this->getUser()->getId() !== $this->trickRepository->findBy(
+            ['id' => $this->getUser()->getId()]
+            )) {
             return $actions
             ->remove(Crud::PAGE_INDEX, Action::DELETE)
             ->remove(Crud::PAGE_INDEX, Action::EDIT)
@@ -87,8 +89,6 @@ class TrickCrudController extends AbstractCrudController
         ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action) {
             return $action->setIcon('fa-solid fa-eye');
         });
-
-        
     }
 
     public function configureFields(string $pageName): iterable
@@ -108,11 +108,13 @@ class TrickCrudController extends AbstractCrudController
 
         yield TextareaField::new('Description');
 
-        yield ImageField::new('images')
-        ->setBasePath(self::TRICK_BASE_PATH)
-        ->setUploadDir(self::TRICK_UPLOAD_DIR)
-        ->setUploadedFileNamePattern('[year]/[month]/[day]/[slug]-[contenthash].[extension]');;
-
+        yield TextField::new('file', 'Image')
+        ->setFormType(VichImageType::class)
+        ->onlyOnForms();
+        yield ImageField::new('image', 'Image')
+        ->setBasePath($this->uploadDir . '/tricks')
+        ->setUploadDir('public/tricks/' . $this->uploadDir)
+        ->hideOnForm();
 
         yield DateTimeField::new('updatedAt')->setLabel('mis à jour le')->hideOnForm();
         yield DateTimeField::new('CreatedAt')->setLabel('date de création')->hideOnForm();
