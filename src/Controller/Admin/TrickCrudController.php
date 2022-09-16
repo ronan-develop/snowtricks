@@ -5,7 +5,6 @@ namespace App\Controller\Admin;
 use App\Entity\User;
 use App\Entity\Trick;
 use App\Repository\TrickRepository;
-use Symfony\Config\VichUploaderConfig;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -29,9 +28,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 class TrickCrudController extends AbstractCrudController
 {
     public function __construct(
-        private SluggerInterface $slugger, private TrickRepository $trickRepository, private  string $uploadDir
-        )
-    {
+        private SluggerInterface $slugger,
+        private TrickRepository $trickRepository,
+        private  string $uploadDir
+    ) {
     }
 
 
@@ -50,7 +50,7 @@ class TrickCrudController extends AbstractCrudController
     {
         if (!$this->isGranted('ROLE_ADMIN') && $this->getUser()->getId() !== $this->trickRepository->findBy(
             ['id' => $this->getUser()->getId()]
-            )) {
+        )) {
             return $actions
             ->remove(Crud::PAGE_INDEX, Action::DELETE)
             ->remove(Crud::PAGE_INDEX, Action::EDIT)
