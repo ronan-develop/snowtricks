@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\TrickRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TrickRepository;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
+#[Vich\Uploadable]
 class Trick
 {
     #[ORM\Id]
@@ -27,9 +30,12 @@ class Trick
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'tricks')]
     private Collection $category;
-    
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Image::class)]
-    private Collection $images;
+
+    #[ORM\Column(type:"string", length:255)]
+    private string $image = "";
+
+    #[Vich\UploadableField(mapping: 'tricks', fileNameProperty: 'image')]
+    private ?File $file = null;
 
     #[ORM\ManyToOne(inversedBy: 'tricks')]
     private ?User $user = null;
@@ -43,7 +49,6 @@ class Trick
     public function __construct()
     {
         $this->category = new ArrayCollection();
-        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,36 +116,6 @@ class Trick
         return $this;
     }
 
-    /**
-     * @return Collection<int, Image>
-     */
-    public function getImages(): Collection
-    {
-        return $this->images;
-    }
-
-    public function addImage(Image $image): self
-    {
-        if (!$this->images->contains($image)) {
-            $this->images->add($image);
-            $image->setTrick($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImage(Image $image): self
-    {
-        if ($this->images->removeElement($image)) {
-            // set the owning side to null (unless already changed)
-            if ($image->getTrick() === $this) {
-                $image->setTrick(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -173,6 +148,35 @@ class Trick
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     */
+    public function setFile(?File $file = null): void
+    {
+        $this->file = $file;
+
+        if (null !== $file) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    public function getImage(): string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
