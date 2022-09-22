@@ -19,7 +19,8 @@ class Trick {
     ====
     # protected categoryId
     # protected userId
-    # protected imageUrl
+    # protected featuredImage
+    # protected Image
     # protected videoUrl
     == Methods ==
     + public getUsername()
@@ -42,11 +43,13 @@ class Video {
 class Message {
     # protected created_at
     # protected content
+    # protected userAvatar
     ====
     # protected userId
     # protected trickId
     == Methods ==
     + public getAuthor()
+    + public getUserAvatar()
     + public getCreated_at()
     + public getContent()
 }
@@ -56,18 +59,18 @@ class User {
     # protected email
     # protected password
     # protected role
-    # protected photo
+    # protected avatar
     # protected token
     == Methods ==
     + public getUsername()
     + public getEmail()
     + public getPassword()
     + public getRole()
-    + public getPhoto()
+    + public getAvatar()
     + public getToken()
 }
-
-class T_R_Role {
+'  enum class
+enum Role {
     string T_R_Admin
     string T_R_Subscriber
 }
@@ -81,7 +84,7 @@ class Category {
 
 ' ------------------------ Memo ------------------------
 ' si je créé un trick je créé les composants
-' les composants peuvent être créé avant un agrégat
+'  peuvent être créé avant un agrégat
 ' agrégation pas d'appartenance o
 ' composition imlpique destruction *
 ' message -> trick : trick accede a une instance de message
@@ -91,7 +94,7 @@ class Category {
 
 Trick "0..*" <..o "1" Category : belongs
 Trick " 1 " *-> "0..*" Message :has
-User "1" --o "1" T_R_Role : is
+User "1" --o "1" Role : is
 User "1" - "0..*" Trick : > create
 User "1" .. "0..*" Message : wrote >
 Trick "1" *--> "1..*" Image : has
