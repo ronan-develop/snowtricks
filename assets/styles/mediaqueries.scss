@@ -66,7 +66,7 @@
         .container {
 
             grid-row-gap: 4.5em;
-            grid-column-gap: 2em;
+            grid-column-gap: 1em;
             grid-template-columns: 1fr 1fr 1fr;
         }
     }
@@ -139,7 +139,7 @@
 
             grid-row-gap: 3em;
             grid-column-gap: 1em;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
         }
     }
 }
@@ -159,9 +159,10 @@
 
         .container {
 
+            justify-content: center;
             grid-row-gap: 3em;
             grid-column-gap: 1em;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
         }
     }
 }
