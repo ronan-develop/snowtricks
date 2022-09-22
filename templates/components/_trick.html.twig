@@ -3,7 +3,6 @@
     src="uploads/tricks/{{ trick.image }}"
     alt="image {{ trick.image }}"
   />
-  <div class="desc"></div>
   <footer>
     <a href="/trick/{{ trick.slug }}">
       <button style="z-index: 0">
@@ -13,6 +12,8 @@
         {% else %}
           {{ trick.name }}
         {% endif %}
+          <a href="http://google.fr"><i class="fa-solid fa-pen"></i></a>
+          <a href="http://google.com"><i class="fa-solid fa-trash"></i></a>
       </button>
     </a>
   </footer>

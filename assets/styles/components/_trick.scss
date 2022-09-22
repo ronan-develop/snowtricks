@@ -17,8 +17,9 @@ article {
     transition: 1s ease-in-out;
 
     &:hover {
+
         box-shadow: none;
-    }
+    }    
 
     img {
         position: absolute;
@@ -59,6 +60,32 @@ article {
             border: 1px solid $black;
             border-top-right-radius: 0;
             border-top-left-radius: 0;
+
+            a {
+
+                color: white;
+
+                i {
+
+                    margin-left: 0.5rem;
+                }
+
+                .fa-trash {
+
+                    color: $danger;
+
+                    &:hover {
+
+                        color: red;
+                    }
+                }
+
+                &:hover {
+
+                    text-decoration: none;
+                    color: $black;
+                }
+            }
 
             &:hover {
 
