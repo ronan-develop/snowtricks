@@ -47,11 +47,10 @@ class DashboardController extends AbstractDashboardController
      */
     public function configureMenuItems(): iterable
     {
-
         /**
          * Admin is user too -> remove link to 'Gestion de mon compte'
          */
-        if( $this->isGranted('ROLE_USER') && !$this->isGranted('ROLE_ADMIN') ) {
+        if ($this->isGranted('ROLE_USER') && !$this->isGranted('ROLE_ADMIN')) {
             // back to home
             yield MenuItem::section('Navigation');
             yield MenuItem::subMenu('', 'fa-solid fa-arrow-rotate-left')->setSubItems([
@@ -105,7 +104,6 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToCrud('Voir les Tricks', 'fas fa-eye', Trick::class)
             ]);
         }
-
     }
 
     /**
