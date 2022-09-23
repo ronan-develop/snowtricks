@@ -64,4 +64,13 @@ class TrickController extends AbstractController
             'tricks' => $tricks,
         ]);
     }
+
+    #[Route('/tricks/delete/{slug}', name: 'app_delete_trick', methods: 'POST')]
+    public function delete(EntityManagerInterface $em, Request $request)
+    {
+        $slug = $request->get('slug');
+        $repo = $em->getRepository(Trick::class);
+
+        $trick = $repo->findOneBy(['slug'=>$slug]);
+    }
 }
