@@ -56,43 +56,24 @@ class UserCrudController extends AbstractCrudController
         return $this->entityRepository->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
     }
 
+    /**
+     * crud edit delete save
+     *
+     * @param Actions $actions
+     * @return Actions
+     */
     public function configureActions(Actions $actions): Actions
     {
+        /**
+         * - not admin : remove new user
+         */
         if (!$this->isGranted('ROLE_ADMIN')) {
             return $actions
             ->remove(Crud::PAGE_INDEX, Action::NEW);
         }
 
-        if (!$this->isGranted('ROLE_ADMIN') && $this->getUser()->getId() !== $this->userRepository->findBy(['id' => $this->getUser()->getId()])) {
-            return $actions
-            ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
-                return $action
-                ->setIcon('fa-solid fa-gears');
-            })
-            ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
-                return $action
-                ->setIcon('fa-solid fa-trash');
-            })
-            ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, function (Action $action) {
-                return $action
-                ->setLabel("Sauvegarder puis ajouter un nouveau");
-            })
-            ->update(Crud::PAGE_NEW, Action::SAVE_AND_RETURN, function (Action $action) {
-                return $action
-                ->setLabel('Créer et quitter');
-            })
-            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, function (Action $action) {
-                return $action
-                ->setLabel("Sauvegarder puis quitter")
-                ->setIcon("fa-solid fa-floppy-disk");
-            })
-            ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action) {
-                return $action->setIcon('fa-solid fa-eye');
-            });
-        }
-
         return $actions
-        
+
         ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
             return $action
             ->setIcon('fa-solid fa-gears');
@@ -121,10 +102,9 @@ class UserCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
-            
         return $crud
             ->setEntityPermission('ROLE_USER')
-            ->setPageTitle( Crud::PAGE_NEW, 'Création d\'un utilisateur');
+            ->setPageTitle(Crud::PAGE_NEW, 'Création d\'un utilisateur');
     }
 
     public function configureFields(string $pagename): iterable
