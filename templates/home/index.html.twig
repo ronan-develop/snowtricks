@@ -3,6 +3,7 @@
 {% endblock %} {% extends 'base.html.twig' %} {% block title %}Snowtricks Home{%
 endblock %} {% block body %}
 {{ include("components/_navbar.html.twig") }}
+{% include "components/_modal.html.twig" %}
 <div class="container-fluid">
   {{ include("components/_header.html.twig") }}
   <section>
