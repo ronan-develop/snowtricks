@@ -1,12 +1,17 @@
-// const axios = require('axios').default;
+const axios = require('axios').default;
 
-document.querySelectorAll('a#delete-button').forEach((link)=>{
+document.querySelectorAll('a#delete-button').forEach((link) => {
     link.addEventListener('click', launchModal);
 });
 
-function launchModal(e){
+/**
+ * open modal and set attributes
+ * @param {event} e click
+ */
+function launchModal(e) {
     e.preventDefault();
     // handle attributes
+    const target = this.parentNode.parentNode.parentNode;
     const modal = document.getElementById("modal-trick");
     modal.removeAttribute("style");
     modal.setAttribute('aria-modal', 'true');
@@ -16,14 +21,14 @@ function launchModal(e){
     let close = document.querySelector("#modal-trick > div > span");
     let confirm = document.querySelector("#modal-trick > div > button:nth-child(5)");
 
-    close.addEventListener('click', (e)=>{
+    close.addEventListener('click', (e) => {
         e.preventDefault();
         closeModal();
         cancel.removeEventListener("click", closeModal, true);
         return;
     });
 
-    cancel.addEventListener('click', (e)=>{
+    cancel.addEventListener('click', (e) => {
         console.log('cancel');
         e.preventDefault();
         closeModal();
@@ -31,12 +36,15 @@ function launchModal(e){
         return;
     });
 
-    confirm.addEventListener('click', (e)=>{
+    confirm.addEventListener('click', (e) => {
         e.preventDefault();
-
-    })
+        deleteTrick(link, target);
+    });
 }
 
+/**
+ * close modal
+ */
 function closeModal() {
     const modal = document.getElementById("modal-trick");
     modal.setAttribute("style", "display: none;");
@@ -44,22 +52,15 @@ function closeModal() {
     modal.removeAttribute('aria-modal');
 }
 
-function deleteTrick(link) {
-    console.log(this);
+/**
+ * async route to delete trick
+ * @param {string} url data-delete
+ */
+function deleteTrick(url, trick) {
+    trick.remove();
+    closeModal();
+
+    // axios.post(url).then((response) => {
+    //     console.log(response);
+    // });
 }
-
-// function cancel() {
-//     console.log('cancel');
-//     return;
-// }
-
-// function deleteTrick() {
-//     console.log('yep');
-//     const url = this.href;
-//     this.parentNode.parentNode.parentNode.remove();
-//     this.remove();
-    
-//     axios.post(url).then((response)=>{
-//         console.log(response);
-//     });
-// }
