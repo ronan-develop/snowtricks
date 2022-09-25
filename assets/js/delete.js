@@ -13,7 +13,15 @@ function launchModal(e){
     modal.removeAttribute('aria-hidden');
     let link = this.dataset.delete;
     let cancel = document.querySelector("#modal-trick > div > button.secondary.outline");
+    let close = document.querySelector("#modal-trick > div > span");
     let confirm = document.querySelector("#modal-trick > div > button:nth-child(5)");
+
+    close.addEventListener('click', (e)=>{
+        e.preventDefault();
+        closeModal();
+        cancel.removeEventListener("click", closeModal, true);
+        return;
+    });
 
     cancel.addEventListener('click', (e)=>{
         console.log('cancel');

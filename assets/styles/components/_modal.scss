@@ -26,10 +26,14 @@
 
         .js-close-modal {
 
+            display: flex;
+            align-items: center;
             background-color: $closeModal;
             border-color: $closeModal;
+            height: 1rem;
             color: #fff;
-            padding: .5rem;
+            font-size: 0.5rem;
+            padding: 0.5rem;
             border-radius: 5px;
             float: right;
             margin-bottom: 0.5rem;
@@ -48,6 +52,42 @@
             .loader-span {
 
                 text-align: center;
+            }
+        }
+
+        button[type="submit"] {
+
+            transition: 0.5s ease-in-out;
+            border-radius: 3px;
+            display: inline-block;
+            line-height: 22px;
+            padding: 7px 12px;
+            margin: 0;
+            border: 1px solid #88bcf2; 
+            color: #FFFFFF;
+            font-size: 1rem;
+            font-weight: bold;
+            letter-spacing: -1px;
+            // text-shadow: 1px 2px 2px $black;
+            cursor:pointer;
+            margin-bottom: 0.5rem;
+
+            &:hover {
+
+                text-shadow: 1px 2px 2px $black;
+                color: white;
+            }
+        }
+
+        button[type="submit"].secondary {
+
+            color : $black;
+
+            &:hover {
+
+                text-shadow: 1px 2px 2px $black;
+                background-color: $closeModal;
+                color: white;
             }
         }
     }
