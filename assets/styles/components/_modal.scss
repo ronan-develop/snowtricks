@@ -1,4 +1,4 @@
-#modal-trick{
+#modal-trick {
 
     position: fixed;
     display: flex;
@@ -12,7 +12,7 @@
     background-color: rgba(24, 24, 24, 0.705);
     animation: fadeIn 500ms both;
 
-    .modal-wrapper{
+    .modal-wrapper {
 
         animation: slideFromTop 500ms;
         overflow: auto;
@@ -24,27 +24,28 @@
         border-radius: .3rem;
         box-sizing: border-box;
 
-        .js-close-modal{
+        .js-close-modal {
 
             background-color: $closeModal;
             border-color: $closeModal;
-            color:#fff;
+            color: #fff;
             padding: .5rem;
             border-radius: 5px;
-            float:right;
+            float: right;
             margin-bottom: 0.5rem;
 
-            &:hover{
+            &:hover {
 
                 cursor: pointer;
-                color:rgba(24, 24, 24, 0.705);
+                color: rgba(24, 24, 24, 0.705);
             }
         }
+
         h1.modal {
 
             text-align: center;
 
-            .loader-span{
+            .loader-span {
 
                 text-align: center;
             }
@@ -52,23 +53,41 @@
     }
 
     // modal avec attribut aria-hidden="true"
-    &[aria-hidden="true"]{
+    &[aria-hidden="true"] {
         animation-name: fadeOut;
-        .modal-wrapper{
+
+        .modal-wrapper {
             animation-name: slideToBottom;
         }
     }
 
     @keyframes fadeIn {
-        from {opacity:0;}
-        to {opacity: 1;}
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
     }
+
     @keyframes fadeOut {
-        from {opacity:1;}
-        to {opacity: 0;}
+        from {
+            opacity: 1;
+        }
+
+        to {
+            opacity: 0;
+        }
     }
+
     @keyframes slideFromTop {
-        from {transform:translateY(-50px);}
-        to {transform:translateY(0px);}
+        from {
+            transform: translateY(-50px);
+        }
+
+        to {
+            transform: translateY(0px);
+        }
     }
 }
