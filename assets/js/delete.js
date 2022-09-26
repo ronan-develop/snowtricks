@@ -23,7 +23,7 @@ function launchModal(e) {
 
     close.addEventListener('click', (e) => {
         e.preventDefault();
-        closeModal();
+        closeModal("trick");
         cancel.removeEventListener("click", closeModal, true);
         return;
     });
@@ -31,7 +31,7 @@ function launchModal(e) {
     cancel.addEventListener('click', (e) => {
         console.log('cancel');
         e.preventDefault();
-        closeModal();
+        closeModal("trick");
         cancel.removeEventListener("click", closeModal, true);
         return;
     });
@@ -45,8 +45,9 @@ function launchModal(e) {
 /**
  * close modal
  */
-function closeModal() {
-    const modal = document.getElementById("modal-trick");
+function closeModal(target) {
+    const modal = document.getElementById(`modal-${target}`);
+    console.log(modal);
     modal.setAttribute("style", "display: none;");
     modal.setAttribute('aria-hidden', 'true');
     modal.removeAttribute('aria-modal');
@@ -58,9 +59,35 @@ function closeModal() {
  */
 function deleteTrick(url, trick) {
     trick.remove();
-    closeModal();
+    closeModal("trick");
+    success('✔ Figure supprimée');
 
     // axios.post(url).then((response) => {
     //     console.log(response);
     // });
+}
+
+function success(message) {
+    const modal = document.querySelector("#modal-success");
+    let close = modal.querySelector("span.js-close-modal");
+    let confirm = document.querySelector("#modal-success > div > button");
+
+    console.log(modal);
+    console.log(message);
+
+    modal.removeAttribute("style");
+    modal.setAttribute('aria-modal', 'true');
+    modal.removeAttribute('aria-hidden');
+
+    close.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeModal("success");
+        return;
+    });
+
+    confirm.addEventListener('click', (e)=>{
+        e.preventDefault();
+        closeModal("success");
+        return;
+    });
 }

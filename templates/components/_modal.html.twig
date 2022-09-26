@@ -5,13 +5,30 @@
   aria-labelledby="delete trick"
   style="display: none"
 >
-  <div class="modal-wrapper js-modal-propagation">
+  <div class="modal-wrapper">
     <span class="js-close-modal" role="button">X</span>
 
     <h1 class="modal">⚠ Suppression</h1>
     <p>Êtes-vous sûr de vouloir supprimmer cette figure ?</p>
 
     <button type="submit" class="secondary outline">Annuler</button>
+    <button type="submit">Valider</button>
+  </div>
+</div>
+
+<div
+  id="modal-success"
+  class="modal-success"
+  aria-hidden="true"
+  aria-labelledby="message succes"
+  style="display: none"
+>
+  <div class="modal-wrapper">
+    <span class="js-close-modal" role="button">X</span>
+
+    <h1 class="modal">✔ Succès !</h1>
+    <p>L'opération s'est correctement déroulée</p>
+    
     <button type="submit">Valider</button>
   </div>
 </div>

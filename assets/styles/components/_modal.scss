@@ -1,4 +1,4 @@
-#modal-trick {
+#modal-trick, .modal-success {
 
     position: fixed;
     display: flex;
@@ -48,11 +48,6 @@
         h1.modal {
 
             text-align: center;
-
-            .loader-span {
-
-                text-align: center;
-            }
         }
 
         button[type="submit"] {
