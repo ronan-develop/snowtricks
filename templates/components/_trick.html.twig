@@ -8,7 +8,7 @@
         {{ trick.name | excerpt(10) }}
         {% else %}
         {{ trick.name }}
-        {% endif %}
+        {% endif %} {% if app.user %}
         <a
           href="{{
             ea_url()
@@ -24,6 +24,7 @@
           id="delete-button"
           ><i class="fa-solid fa-trash"></i
         ></a>
+        {% endif %}
       </button>
     </a>
   </footer>

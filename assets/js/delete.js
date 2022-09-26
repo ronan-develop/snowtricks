@@ -60,11 +60,10 @@ function closeModal(target) {
 function deleteTrick(url, trick) {
     trick.remove();
     closeModal("trick");
-    success('✔ Figure supprimée');
-
-    // axios.post(url).then((response) => {
-    //     console.log(response);
-    // });
+    
+    axios.post(url).then((response) => {
+        success('✔ Figure supprimée');
+    });
 }
 
 function success(message) {
