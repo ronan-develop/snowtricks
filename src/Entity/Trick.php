@@ -49,6 +49,15 @@ class Trick
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $media1 = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $media2 = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $media3 = null;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -187,5 +196,41 @@ class Trick
     public function setImageSize(?int $imageSize): void
     {
         $this->imageSize = $imageSize;
+    }
+
+    public function getMedia1(): ?string
+    {
+        return $this->media1;
+    }
+
+    public function setMedia1(?string $media1): self
+    {
+        $this->media1 = $media1;
+
+        return $this;
+    }
+
+    public function getMedia2(): ?string
+    {
+        return $this->media2;
+    }
+
+    public function setMedia2(?string $media2): self
+    {
+        $this->media2 = $media2;
+
+        return $this;
+    }
+
+    public function getMedia3(): ?string
+    {
+        return $this->media3;
+    }
+
+    public function setMedia3(?string $media3): self
+    {
+        $this->media3 = $media3;
+
+        return $this;
     }
 }
