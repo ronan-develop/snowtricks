@@ -1,17 +1,29 @@
 <article>
-  <img
-    src="uploads/tricks/{{ trick.image }}"
-    alt="image {{ trick.image }}"
-  />
-  <div class="desc"></div>
+  <img src="uploads/tricks/{{ trick.image }}" alt="image {{ trick.image }}" />
   <footer>
     <a href="/trick/{{ trick.slug }}">
       <button style="z-index: 0">
         <i class="fa-solid fa-eye"></i>
         {% if trick.name |length > 10 %}
-          {{ trick.name | excerpt(10) }}
+        {{ trick.name | excerpt(10) }}
         {% else %}
-          {{ trick.name }}
+        {{ trick.name }}
+        {% endif %} {% if app.user %}
+        <a
+          href="{{
+            ea_url()
+              .setController('App\\Controller\\Admin\\TrickCrudController')
+              .setAction('edit')
+              .setEntityId(trick.id)
+          }}"
+          ><i class="fa-solid fa-pen"></i
+        ></a>
+        <a
+          href="#"
+          data-delete="{{ path('app_delete_trick', { slug: trick.slug }) }}"
+          id="delete-button"
+          ><i class="fa-solid fa-trash"></i
+        ></a>
         {% endif %}
       </button>
     </a>

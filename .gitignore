@@ -20,5 +20,5 @@
 node_modules
 
 ###< build folder ###
-/public/build
+/public/
 ###>build folder ###
