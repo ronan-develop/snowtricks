@@ -48,19 +48,6 @@ class TrickCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        if (!$this->isGranted('ROLE_ADMIN') && $this->getUser()->getId() !== $this->trickRepository->findBy(
-            ['id' => $this->getUser()->getId()]
-        )) {
-            return $actions
-            ->remove(Crud::PAGE_INDEX, Action::DELETE)
-            ->remove(Crud::PAGE_INDEX, Action::EDIT)
-            ->remove(Crud::PAGE_DETAIL, Action::DELETE)
-            ->remove(Crud::PAGE_DETAIL, Action::EDIT)
-            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
-            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN)
-            ;
-        }
-
         return $actions
         ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
             return $action->setIcon('fa-fw fas fa-person-snowboarding')->setLabel("Nouveau trick");

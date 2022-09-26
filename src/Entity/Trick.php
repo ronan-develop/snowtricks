@@ -30,7 +30,7 @@ class Trick
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'tricks')]
     private Collection $category;
-    
+
     #[ORM\Column(type: 'string', length:255)]
     private ?string $image = null;
 
@@ -160,7 +160,7 @@ class Trick
         return $this->file;
     }
 
-    public function setFile(?File $file = null):void
+    public function setFile(?File $file = null): void
     {
         $this->file = $file;
 
