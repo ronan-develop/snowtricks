@@ -46,31 +46,34 @@ section > div > article {
     background: none;
 }
 
-article {
+.tricks {
 
-    width: auto;
+    article {
 
-    footer {
-
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        background-color: transparent;
-        box-shadow: $shadow;
-
-        &:hover {
-
-            box-shadow: none;
-        }
-
-        button {
-
-            font-size: .7rem;
-            word-wrap: break-word;
-
+        width: auto;
+    
+        footer {
+    
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background-color: transparent;
+            box-shadow: $shadow;
+    
             &:hover {
-
-                text-shadow: $shadow-nav-title;
+    
+                box-shadow: none;
+            }
+    
+            button {
+    
+                font-size: .7rem;
+                word-wrap: break-word;
+    
+                &:hover {
+    
+                    text-shadow: $shadow-nav-title;
+                }
             }
         }
     }
