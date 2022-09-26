@@ -30,7 +30,8 @@ class TrickCrudController extends AbstractCrudController
     public function __construct(
         private SluggerInterface $slugger,
         private TrickRepository $trickRepository,
-        private  string $uploadDir
+        private string $upload_dirTricks,
+        private string $upload_dirMedia,
     ) {
     }
 
@@ -95,13 +96,28 @@ class TrickCrudController extends AbstractCrudController
 
         yield TextareaField::new('Description');
 
+        //----------------------Vich-------------------------
         yield TextField::new('file', 'Image')
         ->setFormType(VichImageType::class)
         ->onlyOnForms();
-        yield ImageField::new('image', 'Image')
-        ->setBasePath($this->uploadDir . '/tricks')
-        ->setUploadDir('public/tricks/' . $this->uploadDir)
+
+        yield ImageField::new('image', 'Image à la une')
+        ->setUploadedFileNamePattern('[name].[extension]')
+        ->setBasePath($this->upload_dirTricks)
+        ->setUploadDir('public')
         ->hideOnForm();
+
+        //----------------------media-------------------------
+        yield ImageField::new('media1')
+        ->setBasePath($this->upload_dirMedia)
+        ->setUploadDir('public/uploads/media');
+        yield ImageField::new('media2')
+        ->setBasePath($this->upload_dirMedia)
+        ->setUploadDir('public/uploads/media');
+        yield ImageField::new('media3')
+        ->setBasePath($this->upload_dirMedia)
+        ->setUploadDir('public/uploads/media');
+
 
         yield DateTimeField::new('updatedAt')->setLabel('mis à jour le')->hideOnForm();
         yield DateTimeField::new('CreatedAt')->setLabel('date de création')->hideOnForm();
