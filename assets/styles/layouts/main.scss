@@ -31,8 +31,8 @@ body {
                     
                     transition: 0.5s ease-in-out;
                     box-shadow: $shadow;
-                    background-color: #ff5f5f;
                     padding: 1rem;
+                    background-color: white;
                     border-radius: .5rem;
                     margin: 0 0.5rem;
                     cursor: pointer;
@@ -41,6 +41,16 @@ body {
     
                         background-color: #ffa2a2;
                         box-shadow: none;
+                    }
+                }
+
+                .fa-trash {
+
+                    background-color: $closeModal;
+                    
+                    &:hover {                        
+                        
+                        background-color: $danger;
                     }
                 }
                 
