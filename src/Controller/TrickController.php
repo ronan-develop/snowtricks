@@ -51,7 +51,6 @@ class TrickController extends AbstractController
                 'user' => $this->getUser()->getUserIdentifier()
             ]);
         }
-
         return $this->render('trick/index.html.twig', [
             'trick' => $trick,
         ]);
@@ -76,21 +75,32 @@ class TrickController extends AbstractController
 
         $trick = $repo->findOneBy(['slug' => $slug]);
 
-        //todo retirer les commentaires
-
-        $em->remove($trick);
-        $em->flush();
+        //todo retirer les commentaires try catch
 
         // not connected
         $user = $this->getUser();
 
         if (!$user) {
             return $this->json([
-            'code' => 403,
-            'message' =>  'Unauthorized'
-        ], 403);
+                'code' => 403,
+                'message' =>  'Unauthorized'
+            ], 403);
         }
 
+        $em->remove($trick);
+        $em->flush();
+
         return $this->json(['code' => 200, 'name' => $trick->getName(), 'message' => 'la suppression s\'est bien déroulée'], 200);
+    }
+
+    #[Route('see-medias/{slug}', name: 'app_media')]
+    public function featured(Request $request, TrickRepository $trickRepository)
+    {
+        $slug = $request->get('slug');
+        $trick = $trickRepository->findOneBy(['slug'=> $slug]);
+        
+        return $this->render('trick/medias.html.twig', [
+            'trick' => $trick
+        ]);
     }
 }

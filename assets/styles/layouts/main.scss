@@ -118,7 +118,30 @@ body {
 
     }
 
+    .see-medias {
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+
+        div {
+
+            margin: 2rem auto;
+            
+            img, span.video {
+
+                width: 100vh;
+                height: auto;
+                margin: 0 auto;
+                text-align: center;
+            }
+        }
+    }
+
     .container {
+
+        margin-top: 1rem;
 
         span.line {
 
@@ -132,8 +155,6 @@ body {
             margin-top: 1rem;
             text-align: center
         }
-
-        ;
 
     }
 
