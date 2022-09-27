@@ -88,7 +88,8 @@ class TrickCrudController extends AbstractCrudController
         yield IdField::new('id')->hideOnForm()
         ->hideOnIndex();
 
-        yield AssociationField::new('category', 'Catégorie(s)');
+        yield AssociationField::new('category', 'Catégorie(s)')
+        ->hideOnIndex();
 
         yield TextField::new('name', 'Nom du trick');
         yield SlugField::new('slug')->setTargetFieldName("name")
@@ -117,6 +118,9 @@ class TrickCrudController extends AbstractCrudController
         yield ImageField::new('media3')
         ->setBasePath($this->upload_dirMedia)
         ->setUploadDir('public/uploads/media');
+
+        yield TextField::new('video', 'code video embed')
+        ->hideOnIndex();
 
 
         yield DateTimeField::new('updatedAt')->setLabel('mis à jour le')->hideOnForm();
