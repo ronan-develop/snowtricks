@@ -4,20 +4,26 @@ endblock %} {% block body %} {{ include("components/_navbar.html.twig") }}
   <header class="container">
     <hgroup>
       <h1>{{ trick.name }}</h1>
-      {% for category in trick.category %} {% if trick.category |length > 1
-        %}
+      {% for category in trick.category %}
         <span class="badge">{{ category.name }}</span>
-        {% else %}
-        <span class="badge">{{ category.name }}</span>
-        {% endif %} {% endfor %}
+      {% endfor %}
       </hgroup>
       <figure>
+        {% if trick.image %}
         <img
         src="/uploads/tricks/{{ trick.image }}"
         alt="position regular"
         width="100%"
         height="auto"
         />
+        {% else %}
+        <img
+        src="/uploads/media/snowboarder.ico"
+        alt="position regular"
+        width="100%"
+        height="auto"
+        />
+        {% endif %}
         {% if app.user %}
         <div class="handle">
           <a href="{{ ea_url()
@@ -33,6 +39,7 @@ endblock %} {% block body %} {{ include("components/_navbar.html.twig") }}
         </div>
         {% endif %}
     </figure>
+    <div class="mobile"><a href="" role="button" class="see-media">Voir les medias</a></div>
     <div class="medias">
       {% if trick.media1 %}
       <span><img src="/uploads/media/{{ trick.media1 }}" class="thumbnail" alt="illustration de {{ trick.name }}"></span>
@@ -51,6 +58,23 @@ endblock %} {% block body %} {{ include("components/_navbar.html.twig") }}
 </div>
 
 <div class="container">
+  {% if trick.category|length > 1 %}
+  <p>Catégories:
+    {% for category in trick.category %}
+    <span class="badge">{{ category.name }},</span>
+    <span> crée le :{{ trick.createdAt|date("m/d/Y")}}</span>
+    {% endfor %}
+  </p>
+  {% else %}
+  <p>Catégorie:
+    {% for category in trick.category %}
+    <span class="badge">{{ category.name }},</span>
+    <span> créé le :{{ trick.createdAt|date("m/d/Y")}}</span>
+    {% endfor %}
+  </p>
+  {% endif %}
+  
+
   <p>{{ trick.description }}</p>
 
   <h3>Messages</h3>
