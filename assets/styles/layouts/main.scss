@@ -61,6 +61,23 @@ body {
 
             }
         }
+
+        .medias {
+
+            text-align: center;
+
+            span img {
+
+                max-height: 8rem;
+                width: auto;
+            }
+
+            .video {
+
+                max-height: 8rem;
+                width: auto;
+            }
+        }
     }
 
     main {
@@ -120,6 +137,8 @@ body {
 
     .container {
 
+        margin-top: 1rem;
+
         span.line {
 
             border-bottom: 1px solid $gray;
@@ -132,8 +151,6 @@ body {
             margin-top: 1rem;
             text-align: center
         }
-
-        ;
 
     }
 

@@ -33,6 +33,20 @@ endblock %} {% block body %} {{ include("components/_navbar.html.twig") }}
         </div>
         {% endif %}
     </figure>
+    <div class="medias">
+      {% if trick.media1 %}
+      <span><img src="/uploads/media/{{ trick.media1 }}" class="thumbnail" alt="illustration de {{ trick.name }}"></span>
+      {% endif %}
+      {% if trick.media2 %}
+      <span><img src="/uploads/media/{{ trick.media2 }}" class="thumbnail" alt="illustration de {{ trick.name }}"></span>        
+      {% endif %}
+      {% if trick.media3 %}
+      <span><img src="/uploads/media/{{ trick.media3 }}" class="thumbnail" alt="illustration de {{ trick.name }}"></span>       
+      {% endif %}
+      {% if trick.video %}
+      <span class="video">{{ trick.video|raw }}</span>
+      {% endif %}
+    </div>
   </header>
 </div>
 

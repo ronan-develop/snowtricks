@@ -12,6 +12,7 @@ import './js/sticky-nav';
 import './js/images';
 import './js/scroll-arrow';
 import './js/comment';
+import './js/iframe';
 
 // start the Stimulus application
 import './bootstrap';

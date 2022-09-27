@@ -58,6 +58,9 @@ class Trick
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $media3 = null;
 
+    #[ORM\Column(length: 1000, nullable: true)]
+    private ?string $video = null;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -230,6 +233,18 @@ class Trick
     public function setMedia3(?string $media3): self
     {
         $this->media3 = $media3;
+
+        return $this;
+    }
+
+    public function getVideo(): ?string
+    {
+        return $this->video;
+    }
+
+    public function setVideo(?string $video): self
+    {
+        $this->video = $video;
 
         return $this;
     }
