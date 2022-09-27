@@ -6,6 +6,7 @@
 parameters:
     upload_dirTricks: '/uploads/tricks'
     upload_dirMedia: '/uploads/media'
+    upload_dirAvatar: '/uploads/avatar'
     # default_admin_email: admin@mail.com
 
 services:
@@ -17,6 +18,7 @@ services:
         bind:
             $upload_dirTricks: '%upload_dirTricks%'
             $upload_dirMedia: '%upload_dirMedia%'
+            $upload_dirAvatar: '%upload_dirAvatar%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

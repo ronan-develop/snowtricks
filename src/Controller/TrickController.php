@@ -75,7 +75,7 @@ class TrickController extends AbstractController
 
         $trick = $repo->findOneBy(['slug' => $slug]);
 
-        //todo retirer les commentaires try catch
+        //todo retirer les commentaires + try catch
 
         // not connected
         $user = $this->getUser();
