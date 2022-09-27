@@ -1,4 +1,5 @@
 {% block javascripts %}
+{{ encore_entry_script_tags("app") }}
 {{ encore_entry_script_tags("delete") }}
 {% endblock %} {% extends 'base.html.twig' %} {% block title %}Snowtricks Home{%
 endblock %} {% block body %}
@@ -22,10 +23,9 @@ endblock %} {% block body %}
     {% endblock mainContainer %}
   </section>
   <div class="scroll">
-    <i class="fa-solid fa-circle-arrow-up"></i>
+    <i class="fa-solid fa-circle-arrow-up hide"></i>
   </div>
   {{ include("components/_footer.html.twig") }}
 </div>
 {% endblock %} {% block javascript %}
-<script src="{{ asset('build/delete.js') }}"></script>
 {% endblock javascript %}
