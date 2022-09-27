@@ -93,9 +93,14 @@ class TrickController extends AbstractController
         return $this->json(['code' => 200, 'name' => $trick->getName(), 'message' => 'la suppression s\'est bien déroulée'], 200);
     }
 
-    #[Route('modify/{slug}/featured', name: 'app_featured')]
-    public function featured(Request $request)
+    #[Route('see-medias/{slug}', name: 'app_media')]
+    public function featured(Request $request, TrickRepository $trickRepository)
     {
+        $slug = $request->get('slug');
+        $trick = $trickRepository->findOneBy(['slug'=> $slug]);
         
+        return $this->render('trick/medias.html.twig', [
+            'trick' => $trick
+        ]);
     }
 }

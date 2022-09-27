@@ -39,7 +39,7 @@ endblock %} {% block body %} {{ include("components/_navbar.html.twig") }}
         </div>
         {% endif %}
     </figure>
-    <div class="mobile"><a href="" role="button" class="see-media">Voir les medias</a></div>
+    <div class="mobile"><a href="{{ path('app_media', {slug: trick.slug}) }}" role="button" class="see-media">Voir les medias</a></div>
     <div class="medias">
       {% if trick.media1 %}
       <span><img src="/uploads/media/{{ trick.media1 }}" class="thumbnail" alt="illustration de {{ trick.name }}"></span>

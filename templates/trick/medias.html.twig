@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+{% block body %}
+<div class="container see-medias">
+    <div>
+        {% if trick.media1 %}
+        <img src="/uploads/media/{{ trick.media1 }}" class="thumbnail" alt="illustration de {{ trick.name }}">
+        {% endif %}
+    </div>
+    <div>
+        {% if trick.media2 %}
+        <img src="/uploads/media/{{ trick.media2 }}" class="thumbnail" alt="illustration de {{ trick.name }}">
+        {% endif %}
+    </div>
+    <div>
+        {% if trick.media3 %}
+        <img src="/uploads/media/{{ trick.media3 }}" class="thumbnail" alt="illustration de {{ trick.name }}">
+        {% endif %}
+    </div>
+    <div>
+    {% if trick.video %}
+    <span class="video">{{ trick.video|raw }}</span>
+    {% endif %}
+    </div>
+</div>
+    
+{% endblock body %}
