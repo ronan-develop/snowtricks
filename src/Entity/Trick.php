@@ -58,7 +58,7 @@ class Trick
     #[ORM\Column(length: 1000, nullable: true)]
     private ?string $video = null;
 
-    public function __construct(User $user)
+    public function __construct()
     {
         $this->category = new ArrayCollection();
     }
