@@ -79,14 +79,15 @@ endblock %} {% block body %} {{ include("components/_navbar.html.twig") }}
 
   <h3>Messages</h3>
 
-  {# {% if comments %} {% for comment in trick.comments %}
+  {% if comments %} {% for comment in trick.comments %}
+  {{ dump(comment) }}
   <span>{{ date_comment |format_datetime()  }}</span> par
   <span>{{ comment.user }}</span>
 
   <div class="content">
     {{ comment.content }}
   </div>
-  {% endfor %} {% endif %} #}
+  {% endfor %} {% endif %}
 </div>
 {% if app.user %}
 <div class="container">

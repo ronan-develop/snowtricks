@@ -8,6 +8,7 @@ use Twig\Environment;
 use DateTimeImmutable;
 use App\Entity\Comment;
 use App\Form\CommentFormType;
+use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,10 +24,11 @@ class TrickController extends AbstractController
     }
 
     #[Route('/trick/{slug}', name: 'app_trick')]
-    public function index(TrickRepository $trickRepository, Request $request): Response
+    public function index(TrickRepository $trickRepository, CommentRepository $commentRepository, Request $request): Response
     {
         $slug = $request->get('slug');
         $trick = $trickRepository->findOneBy(['slug'=>$slug]);
+        $comments = $commentRepository->findBy(['trick' => $trick]);
 
         if ($this->getUser()) {
             $user = $this->getUser();
@@ -48,7 +50,8 @@ class TrickController extends AbstractController
                 'categories' =>  $trick->getCategory(),
                 'comment_form' => $form->createView(),
                 'date_comment' => $date_comment,
-                'user' => $this->getUser()->getUserIdentifier()
+                'user' => $this->getUser()->getUserIdentifier(),
+                'comments' => $comments
             ]);
         }
         return $this->render('trick/index.html.twig', [

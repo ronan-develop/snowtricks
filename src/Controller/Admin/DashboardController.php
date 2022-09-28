@@ -74,7 +74,6 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToCrud('mon compte', '', User::class)
             ]);
         }
-
         if ($this->isGranted('ROLE_ADMIN')) {
             // back to home &
             yield MenuItem::section('Navigation');
