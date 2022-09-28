@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Trick;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommentRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
@@ -27,6 +28,11 @@ class Comment
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?Trick $trick = null;
+
+    public function __construct(Trick $trick)
+    {
+        $this->trick = $trick;
+    }
 
     public function getId(): ?int
     {

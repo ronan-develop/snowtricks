@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -29,7 +30,8 @@ class UserCrudController extends AbstractCrudController
     public function __construct(
         private UserRepository $userRepository,
         private UserPasswordHasherInterface $userPasswordHasher,
-        private EntityRepository $entityRepository
+        private EntityRepository $entityRepository,
+        private string $upload_dirAvatar
     ) {
     }
     public static function getEntityFqcn(): string
@@ -110,11 +112,17 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pagename): iterable
     {
         yield TextField::new('username');
+
         yield TextField::new('password')
         ->setFormType(PasswordType::class)
         ->onlyOnForms();
+
         yield TextField::new('email')
         ->setFormType(EmailType::class);
+
+        yield ImageField::new('avatar', 'votre avatar')
+        ->setBasePath($this->upload_dirAvatar)
+        ->setUploadDir('public/uploads/avatar');
 
         if ($this->isGranted('ROLE_ADMIN')) {
             yield ChoiceField::new('roles')
