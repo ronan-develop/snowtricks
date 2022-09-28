@@ -8,10 +8,11 @@ use Twig\Environment;
 use DateTimeImmutable;
 use App\Entity\Comment;
 use App\Form\CommentFormType;
-use App\Repository\CommentRepository;
-use App\Repository\TrickRepository;
 use App\Repository\UserRepository;
+use App\Repository\TrickRepository;
+use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,15 +21,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TrickController extends AbstractController
 {
-    public function __construct(private Environment $twig, private EntityManagerInterface $entityManager)
+    public function __construct(private Environment $twig, private EntityManagerInterface $entityManager, private TrickRepository $trickRepository)
     {
     }
 
     #[Route('/trick/{slug}', name: 'app_trick')]
-    public function index(TrickRepository $trickRepository, CommentRepository $commentRepository, UserRepository $userRepository, Request $request): Response
-    {
+    public function index(
+        TrickRepository $trickRepository,
+        CommentRepository $commentRepository,
+        UserRepository $userRepository,
+        Request $request,
+        PaginatorInterface $paginator
+    ): Response {
         $slug = $request->get('slug');
         $trick = $trickRepository->findOneBy(['slug'=>$slug]);
+
+        $data = $commentRepository->findBy(['trick' => $this->trickRepository->findOneBy(['slug' => $slug])]);
+
+        $comments = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            10
+        );
 
         if ($this->getUser()) {
             $currentUser = $this->getUser()->getUserIdentifier();
@@ -53,7 +67,7 @@ class TrickController extends AbstractController
                 'comment_form' => $form->createView(),
                 'date_comment' => $date_comment,
                 'user' => $this->getUser()->getUserIdentifier(),
-                'comments' => $commentRepository->findBy(['trick'=>$trick])
+                'comments' => $comments
             ]);
         }
         return $this->render('trick/index.html.twig', [
