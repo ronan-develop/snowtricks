@@ -10,6 +10,7 @@ use App\Entity\Comment;
 use App\Form\CommentFormType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,14 +25,16 @@ class TrickController extends AbstractController
     }
 
     #[Route('/trick/{slug}', name: 'app_trick')]
-    public function index(TrickRepository $trickRepository, CommentRepository $commentRepository, Request $request): Response
+    public function index(TrickRepository $trickRepository, CommentRepository $commentRepository, UserRepository $userRepository,Request $request): Response
     {
         $slug = $request->get('slug');
         $trick = $trickRepository->findOneBy(['slug'=>$slug]);
         $comments = $commentRepository->findBy(['trick' => $trick]);
 
         if ($this->getUser()) {
-            $user = $this->getUser();
+            $currentUser = $this->getUser()->getUserIdentifier();
+            $user = $userRepository->findOneBy(['username'=>$currentUser]);
+
             $comment = new Comment();
             $form = $this->createForm(CommentFormType::class, $comment);
             $form->handleRequest($request);
@@ -101,7 +104,7 @@ class TrickController extends AbstractController
     {
         $slug = $request->get('slug');
         $trick = $trickRepository->findOneBy(['slug'=> $slug]);
-        
+
         return $this->render('trick/medias.html.twig', [
             'trick' => $trick
         ]);
