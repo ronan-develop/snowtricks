@@ -8,7 +8,9 @@ use Twig\Environment;
 use DateTimeImmutable;
 use App\Entity\Comment;
 use App\Form\CommentFormType;
+use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,14 +25,16 @@ class TrickController extends AbstractController
     }
 
     #[Route('/trick/{slug}', name: 'app_trick')]
-    public function index(TrickRepository $trickRepository, Request $request): Response
+    public function index(TrickRepository $trickRepository, CommentRepository $commentRepository, UserRepository $userRepository, Request $request): Response
     {
         $slug = $request->get('slug');
         $trick = $trickRepository->findOneBy(['slug'=>$slug]);
 
         if ($this->getUser()) {
-            $user = $this->getUser();
-            $comment = new Comment();
+            $currentUser = $this->getUser()->getUserIdentifier();
+            $user = $userRepository->findOneBy(['username' => $currentUser]);
+
+            $comment = new Comment($trick);
             $form = $this->createForm(CommentFormType::class, $comment);
             $form->handleRequest($request);
             $date_comment = $comment->getCreatedAt();
@@ -48,11 +52,13 @@ class TrickController extends AbstractController
                 'categories' =>  $trick->getCategory(),
                 'comment_form' => $form->createView(),
                 'date_comment' => $date_comment,
-                'user' => $this->getUser()->getUserIdentifier()
+                'user' => $this->getUser()->getUserIdentifier(),
+                'comments' => $commentRepository->findBy(['trick'=>$trick])
             ]);
         }
         return $this->render('trick/index.html.twig', [
             'trick' => $trick,
+            'comments' => $commentRepository->findBy(['trick' => $trick])
         ]);
     }
 
@@ -75,7 +81,7 @@ class TrickController extends AbstractController
 
         $trick = $repo->findOneBy(['slug' => $slug]);
 
-        //todo retirer les commentaires try catch
+        //todo retirer les commentaires + try catch
 
         // not connected
         $user = $this->getUser();
@@ -98,7 +104,7 @@ class TrickController extends AbstractController
     {
         $slug = $request->get('slug');
         $trick = $trickRepository->findOneBy(['slug'=> $slug]);
-        
+
         return $this->render('trick/medias.html.twig', [
             'trick' => $trick
         ]);
