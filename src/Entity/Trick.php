@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TrickRepository;
@@ -41,9 +40,6 @@ class Trick
     #[ORM\Column(type: 'integer')]
     private ?int $imageSize = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tricks')]
-    private ?User $user = null;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -62,7 +58,7 @@ class Trick
     #[ORM\Column(length: 1000, nullable: true)]
     private ?string $video = null;
 
-    public function __construct()
+    public function __construct(User $user)
     {
         $this->category = new ArrayCollection();
     }
@@ -128,18 +124,6 @@ class Trick
     public function removeCategory(Category $category): self
     {
         $this->category->removeElement($category);
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
 
         return $this;
     }
