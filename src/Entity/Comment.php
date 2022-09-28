@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Trick;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommentRepository;
@@ -27,6 +28,11 @@ class Comment
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?Trick $trick = null;
+
+    public function __construct(Trick $trick)
+    {
+        $this->trick = $trick;
+    }
 
     public function getId(): ?int
     {

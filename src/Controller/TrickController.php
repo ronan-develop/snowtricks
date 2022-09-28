@@ -25,17 +25,16 @@ class TrickController extends AbstractController
     }
 
     #[Route('/trick/{slug}', name: 'app_trick')]
-    public function index(TrickRepository $trickRepository, CommentRepository $commentRepository, UserRepository $userRepository,Request $request): Response
+    public function index(TrickRepository $trickRepository, CommentRepository $commentRepository, UserRepository $userRepository, Request $request): Response
     {
         $slug = $request->get('slug');
         $trick = $trickRepository->findOneBy(['slug'=>$slug]);
-        $comments = $commentRepository->findBy(['trick' => $trick]);
 
         if ($this->getUser()) {
             $currentUser = $this->getUser()->getUserIdentifier();
-            $user = $userRepository->findOneBy(['username'=>$currentUser]);
+            $user = $userRepository->findOneBy(['username' => $currentUser]);
 
-            $comment = new Comment();
+            $comment = new Comment($trick);
             $form = $this->createForm(CommentFormType::class, $comment);
             $form->handleRequest($request);
             $date_comment = $comment->getCreatedAt();
@@ -54,11 +53,12 @@ class TrickController extends AbstractController
                 'comment_form' => $form->createView(),
                 'date_comment' => $date_comment,
                 'user' => $this->getUser()->getUserIdentifier(),
-                'comments' => $comments
+                'comments' => $commentRepository->findBy(['trick'=>$trick])
             ]);
         }
         return $this->render('trick/index.html.twig', [
             'trick' => $trick,
+            'comments' => $commentRepository->findBy(['trick' => $trick])
         ]);
     }
 
