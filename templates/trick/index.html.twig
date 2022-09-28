@@ -90,7 +90,7 @@ endblock %} {% block body %} {{ include("components/_navbar.html.twig") }}
   <p>
     Catégorie: {% for category in trick.category %}
     <span class="badge">{{ category.name }},</span>
-    <span> créé le :{{ trick.createdAt|date("m/d/Y")}}</span>
+    <span> créé le : {{ trick.createdAt|date("m/d/Y")}}</span>
     {% endfor %}
   </p>
   {% endif %}
@@ -98,36 +98,39 @@ endblock %} {% block body %} {{ include("components/_navbar.html.twig") }}
   <p>{{ trick.description }}</p>
 
   <h3>Messages</h3>
-  {% if comments %} {% for comment in comments %}
-  <span>{{ date_comment |format_datetime()  }}</span> par :
-  <span
-    ><img
-      src="/uploads/avatar/{{ comment.user.avatar }}"
-      alt="avatar de {{ comment.user.username }}"
-      class="avatar"
-  /></span>
-  <span
-    ><small>{{ comment.user }}</small></span
-  >
+  <div class="comments-container">
+    {% if comments %} {% for comment in comments %}
+    <span class="comment">{{ date_comment |format_datetime()  }}</span> par :
+    <span class="small"
+      ><img
+        src="/uploads/avatar/{{ comment.user.avatar }}"
+        alt="avatar de {{ comment.user.username }}"
+        class="avatar"
+    /></span>
+    <span
+      ><small>{{ comment.user }}</small></span
+    >
 
-  <div class="content">
-    {{ comment.content }}
+    <div class="content">
+      {{ comment.content }}
+    </div>
+    {% endfor %} {% endif %}
   </div>
-  {% endfor %} {% endif %}
+  {% if app.user %}
+  <div class="container">
+    <span class="line"></span>
+    <h3>Ajouter un commentaire :</h3>
+    <article
+      class="comment-card"
+      style="background: none; margin: auto; padding: 0"
+    >
+      {{ form_start(comment_form) }}
+      {{ form_row(comment_form.content) }}
+      {{ form_end(comment_form) }}
+    </article>
+  </div>
+  {% else %}
+  <div class="container"></div>
+  {% endif %}
 </div>
-{% if app.user %}
-<div class="container">
-  <span class="line"></span>
-  <h3>Ajouter un commentaire :</h3>
-  <article
-    class="comment-card"
-    style="background: none; margin: auto; padding: 0"
-  >
-    {{ form_start(comment_form) }}
-    {{ form_row(comment_form.content) }}
-    {{ form_end(comment_form) }}
-  </article>
-</div>
-{% else %}
-<div class="container"></div>
-{% endif %} {% endblock %}
+{% endblock %}

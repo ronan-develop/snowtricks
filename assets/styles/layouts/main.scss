@@ -142,6 +142,12 @@ body {
 
     .container {
 
+        .comments-container {
+
+            padding: 2rem;
+            background-color: $backgroundComments;
+        }
+
         margin-top: 1rem;
 
         span.line {
@@ -157,12 +163,31 @@ body {
             text-align: center
         }
 
-        span {
+        span.comment {
+
+            padding: 0 0.5rem;
+            background-color: $gray;
+            color: white;
+            font-size: .75rem;
+            border-radius: 0.8rem;
+            margin-bottom: 1rem;
 
             small {
 
-                font-size: .8rem;
+                font-size: .75rem;
             }
+        }
+
+        .content {
+
+            margin: 0.5rem 1rem 0.5rem 0rem;
+            padding: 1rem 0.5rem 1rem 0.5rem;
+            background-color: #fafafa;
+            box-shadow: $shadow-nav;
+            border-radius: 0.2rem;
+        }
+
+        span.small {
 
             img.avatar {
 
@@ -170,6 +195,7 @@ body {
                 width: 6vh;
                 border-radius: 50%;
             }
+
         }
 
     }
