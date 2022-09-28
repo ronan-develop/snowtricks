@@ -58,7 +58,8 @@ class TrickController extends AbstractController
         }
         return $this->render('trick/index.html.twig', [
             'trick' => $trick,
-            'comments' => $commentRepository->findBy(['trick' => $trick])
+            'comments' => $commentRepository->findBy(['trick' => $trick]),
+            'date_comment' => ''
         ]);
     }
 
