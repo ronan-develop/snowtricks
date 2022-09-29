@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (textArea) {
         textArea.addEventListener('input', activateButton);
 
-        new App();
+        // new App();
     }
 });
 
