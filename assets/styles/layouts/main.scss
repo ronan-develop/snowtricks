@@ -146,6 +146,43 @@ body {
 
             padding: 2rem;
             background-color: $backgroundComments;
+
+            div {
+
+                .pagination {
+
+                    span {
+
+                        border-radius: 0.35rem;
+                        box-shadow: $shadow;
+                        background-color: #ebedef;
+                        display: inline-block;
+                        padding: 0.35em 0.65em;
+                        font-size: .75em;
+                        font-weight: 700;
+                        line-height: 1;
+                        color: $black;
+                        text-align: center;
+                        white-space: nowrap;
+                        vertical-align: baseline;
+                        color: $gray;
+                    }
+                    
+                    .page, .next, .last, .previous, .first {
+                        
+                        a {
+                            
+                            color: $black;
+                            text-decoration: none;
+
+                            &:hover {
+
+                                color: $gray;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         margin-top: 1rem;
