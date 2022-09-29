@@ -1,0 +1,16 @@
+<div id="comment">
+  <span class="comment">{{ comment.createdAt |format_datetime()  }}</span> par :
+  <span class="small"
+    ><img
+      src="/uploads/avatar/{{ comment.user.avatar }}"
+      alt="avatar de {{ comment.user.username }}"
+      class="avatar"
+  /></span>
+  <span
+    ><small>{{ comment.user }}</small></span
+  >
+
+  <div class="content">
+    {{ comment.content }}
+  </div>
+</div>

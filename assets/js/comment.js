@@ -19,7 +19,6 @@ function activateButton(e) {
     e.preventDefault();
     submitComment.removeAttribute('disabled');
 }
-
 // class App {
 
 //     constructor() {

@@ -142,6 +142,49 @@ body {
 
     .container {
 
+        .comments-container {
+
+            padding: 2rem;
+            background-color: $backgroundComments;
+
+            div {
+
+                .pagination {
+
+                    span {
+
+                        border-radius: 0.35rem;
+                        box-shadow: $shadow;
+                        background-color: #ebedef;
+                        display: inline-block;
+                        padding: 0.35em 0.65em;
+                        font-size: .75em;
+                        font-weight: 700;
+                        line-height: 1;
+                        color: $black;
+                        text-align: center;
+                        white-space: nowrap;
+                        vertical-align: baseline;
+                        color: $gray;
+                    }
+                    
+                    .page, .next, .last, .previous, .first {
+                        
+                        a {
+                            
+                            color: $black;
+                            text-decoration: none;
+
+                            &:hover {
+
+                                color: $gray;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         margin-top: 1rem;
 
         span.line {
@@ -157,12 +200,31 @@ body {
             text-align: center
         }
 
-        span {
+        span.comment {
+
+            padding: 0 0.5rem;
+            background-color: $gray;
+            color: white;
+            font-size: .75rem;
+            border-radius: 0.8rem;
+            margin-bottom: 1rem;
 
             small {
 
-                font-size: .8rem;
+                font-size: .75rem;
             }
+        }
+
+        .content {
+
+            margin: 0.5rem 1rem 0.5rem 0rem;
+            padding: 1rem 0.5rem 1rem 0.5rem;
+            background-color: #fafafa;
+            box-shadow: $shadow-nav;
+            border-radius: 0.2rem;
+        }
+
+        span.small {
 
             img.avatar {
 
@@ -170,6 +232,7 @@ body {
                 width: 6vh;
                 border-radius: 50%;
             }
+
         }
 
     }
