@@ -68,7 +68,6 @@ class TrickController extends AbstractController
                 'trick' => $trick,
                 'categories' =>  $trick->getCategory(),
                 'comment_form' => $form->createView(),
-                'date_comment' => $date_comment,
                 'user' => $this->getUser()->getUserIdentifier(),
                 'comments' => $comments
 

@@ -1,5 +1,5 @@
 <div id="comment">
-  <span class="comment">{{ date_comment |format_datetime()  }}</span> par :
+  <span class="comment">{{ comment.createdAt |format_datetime()  }}</span> par :
   <span class="small"
     ><img
       src="/uploads/avatar/{{ comment.user.avatar }}"
