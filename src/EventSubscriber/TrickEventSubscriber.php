@@ -18,7 +18,7 @@ class TrickEventSubscriber implements EventSubscriberInterface
     {
         return [
             BeforeEntityPersistedEvent::class => [
-                'setTrickCreatedAt'
+                'setTrickCreatedAt',
             ],
             BeforeEntityUpdatedEvent::class => [
                 'setTrickUpdatedAt'
@@ -35,6 +35,20 @@ class TrickEventSubscriber implements EventSubscriberInterface
         }
 
         $trick->setCreatedAt(new DateTimeImmutable("now", new DateTimeZone('Europe/Paris')));
+    }
+
+    public function checkTrick(BeforeEntityPersistedEvent $event)
+    {
+        $trick = $event->getEntityInstance();
+
+        if (!$trick instanceof Trick) {
+            return;
+        }
+
+        if ($trick->getImage() == null) {
+            $trick->setImage('/uploads/tricks/300x200.gif');
+        }
+        
     }
 
     public function setTrickUpdatedAt(BeforeEntityUpdatedEvent $event)
