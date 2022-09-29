@@ -21,8 +21,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TrickController extends AbstractController
 {
-    public function __construct(private Environment $twig, private EntityManagerInterface $entityManager, private TrickRepository $trickRepository)
-    {
+    public function __construct(
+        private Environment $twig,
+        private EntityManagerInterface $entityManager,
+        private TrickRepository $trickRepository
+    ) {
     }
 
     #[Route('/trick/{slug}', name: 'app_trick')]
@@ -68,12 +71,14 @@ class TrickController extends AbstractController
                 'date_comment' => $date_comment,
                 'user' => $this->getUser()->getUserIdentifier(),
                 'comments' => $comments
+
             ]);
         }
         return $this->render('trick/index.html.twig', [
             'trick' => $trick,
             'comments' => $commentRepository->findBy(['trick' => $trick]),
-            'date_comment' => ''
+            'date_comment' => '',
+            'comments' => $comments
         ]);
     }
 

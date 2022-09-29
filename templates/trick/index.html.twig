@@ -97,7 +97,7 @@ endblock %} {% block body %} {{ include("components/_navbar.html.twig") }}
 
   <p>{{ trick.description }}</p>
 
-  <h3>Messages</h3>
+  <h3>Messages ({{ comments.getTotalItemCount }})</h3>
   <div class="comments-container">
     {% if comments %} {% for comment in comments %} {% include
     "components/_comment.html.twig" %} {% endfor %}
