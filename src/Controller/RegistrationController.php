@@ -18,7 +18,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class RegistrationController extends AbstractController
 {
-
     #[Route('/register', name: 'app_register')]
     public function register(
         Request $request,
@@ -27,14 +26,12 @@ class RegistrationController extends AbstractController
         AppAuthenticator $authenticator,
         EntityManagerInterface $entityManager,
         SluggerInterface $slugger
-        ): Response
-    {
+    ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
