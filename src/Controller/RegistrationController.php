@@ -7,6 +7,7 @@ use App\Entity\User;
 use DateTimeImmutable;
 use App\Services\MailerService;
 use App\Form\RegistrationFormType;
+use App\Services\JWTService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +26,8 @@ class RegistrationController extends AbstractController
         VerifyEmailHelperInterface $verifyEmailHelper,
         EntityManagerInterface $entityManager,
         SluggerInterface $slugger,
-        MailerService $mailer
+        MailerService $mailer,
+        JWTService $jWTService
     ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -46,6 +48,20 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
+
+            // token
+            $header = [
+                'alg' => 'HS256',
+                'type' => 'JWT'
+            ];
+
+            $payload = [
+                'user_id' => $user->getId()
+            ];
+
+            $token = $jWTService->generate($header, $payload, $this->getParameter('secret'));
+            dd($token);
+
             // do anything else you need here, like send an email
 
             $this->addFlash('success', 'Vous devez confirmer votre compte, relevez vos emails (😉 dans le doute, vérifiez vos SPAMS)');
