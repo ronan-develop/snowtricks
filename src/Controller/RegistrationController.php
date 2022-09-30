@@ -77,8 +77,7 @@ class RegistrationController extends AbstractController
             $mailer->sendEmail(
                 to: $user->getEmail(),
                 subject: "Activation de votre compte Snowtricks",
-                body: 'Veuillez cliquer<a href='. $signatureComponents->getSignedUrl() .'> ici </a> pour activer votre compte. Expiration dans '.$signatureComponents->getExpiresAt()
-                ->format('d/m/y-H:i:s')
+                body: 'Veuillez cliquer<a href='. $signatureComponents->getSignedUrl() .'> ici </a> pour activer votre compte. Expiration dans 3 heures.'
             );
 
             return $this->render('emails/signup.html.twig', [
