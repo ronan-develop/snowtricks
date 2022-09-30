@@ -7,6 +7,7 @@ parameters:
     upload_dirTricks: '/uploads/tricks'
     upload_dirMedia: '/uploads/media'
     upload_dirAvatar: '/uploads/avatar'
+    secret: '%env(JWT_SECRET)%'
     # default_admin_email: admin@mail.com
 
 services:
