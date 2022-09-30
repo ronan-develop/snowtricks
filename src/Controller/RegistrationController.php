@@ -28,8 +28,7 @@ class RegistrationController extends AbstractController
         VerifyEmailHelperInterface $verifyEmailHelper,
         EntityManagerInterface $entityManager,
         SluggerInterface $slugger,
-        MailerService $mailer,
-        JWTService $jWTService
+        MailerService $mailer
     ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -50,18 +49,6 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
-
-            // token
-            $header = [
-                'alg' => 'HS256',
-                'type' => 'JWT'
-            ];
-
-            $payload = [
-                'user_id' => $user->getId()
-            ];
-
-            $token = $jWTService->generate($header, $payload, $this->getParameter('secret'));
 
             // do anything else you need here, like send an email
 
