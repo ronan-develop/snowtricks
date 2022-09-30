@@ -5,9 +5,10 @@ namespace App\Controller;
 use DateTimeZone;
 use App\Entity\User;
 use DateTimeImmutable;
+use App\Services\JWTService;
 use App\Services\MailerService;
 use App\Form\RegistrationFormType;
-use App\Services\JWTService;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -60,7 +62,6 @@ class RegistrationController extends AbstractController
             ];
 
             $token = $jWTService->generate($header, $payload, $this->getParameter('secret'));
-            dd($token);
 
             // do anything else you need here, like send an email
 
@@ -91,8 +92,25 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify', name: 'app_verify_email')]
-    public function verifyUserEmail(): Response
+    public function verifyUserEmail(Request $request, VerifyEmailHelperInterface $verifyEmailHelper, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
-        return new Response();
+        $user = $userRepository->find($request->query->get('id'));
+        if (!$user) {
+            throw $this->createNotFoundException();
+        }
+        try {
+            $verifyEmailHelper->validateEmailConfirmation(
+                $request->getUri(),
+                $user->getId(),
+                $user->getEmail(),
+            );
+        } catch (VerifyEmailExceptionInterface $e) {
+            $this->addFlash('error', $e->getReason());
+            return $this->redirectToRoute('app_register');
+        }
+        $user->setIsVerified(true);
+        $entityManager->flush();
+        $this->addFlash('success', 'Account Verified! You can now log in.');
+        return $this->redirectToRoute('app_login');
     }
 }
