@@ -4,6 +4,7 @@ article {
     align-items: center;
     justify-content: center;
     background-image: url('../../img/puff.jpg');
+    box-sizing: border-box;
     background-size: cover;
 
     h2 {
@@ -23,11 +24,28 @@ article {
         color: white;
     }
 
-    label[for=inputUsername],
-    label[for=inputPassword] {
+    form {
 
-        color: $gray;
-        font-family: trykker, sans-serif;
+        label[for=registration_form_agree] {
+
+            color: $gray;
+            text-shadow: $shadow-form-text;
+        }
+
+        input[type=checkbox],
+        input[type=checkbox]#registration_form_agree:checked + label:before
+        {
+
+            border-color: hsl(195deg 85% 41%);
+            content: "\2713";
+            color: #666666!important;
+            background-color: hsl(195deg 85% 41%);
+        }
+
+        button#registration_form_Valider {
+
+            margin-top: 1rem;
+        }
     }
 
     div:nth-child(5) {

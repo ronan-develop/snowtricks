@@ -5,4 +5,11 @@ body {
         background-color: $danger;
         text-align: center;
     }
+
+    .alert-success {
+
+        z-index: -100;
+        background-color: $success;
+        text-align: center;
+    }
 }
