@@ -8,8 +8,13 @@ body {
 
     .alert-success {
 
-        z-index: -100;
         background-color: $success;
+        text-align: center;
+    }
+
+    .alert-danger {
+
+        background-color: $closeModal;
         text-align: center;
     }
 }

@@ -4,9 +4,11 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Entity\Trick;
-use App\Entity\Category;
-use App\Controller\Admin\TrickCrudController;
 use App\Entity\Comment;
+use App\Entity\Category;
+use App\Repository\UserRepository;
+use App\Controller\Admin\TrickCrudController;
+use App\Repository\TrickRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -21,18 +23,35 @@ class DashboardController extends AbstractDashboardController
 {
     public function __construct(
         private AdminUrlGenerator $adminUrlGenerator,
+        private UserRepository $userRepository,
+        private TrickRepository $trickRepository
     ) {
     }
-
+    
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
+        /**
+         * account not verified
+         */
+        $user = $this->userRepository->findOneBy(['username'=>$this->getUser()->getUserIdentifier()]);
+
+        if ($user->getIsVerified() === false) {
+            
+            $this->addFlash('warning', 'Vous devez confirmer votre compte, relevez vos emails (😉 dans le doute, vérifiez vos SPAMS)');
+
+            return $this->render('home/index.html.twig', [
+                'tricks'=> $this->trickRepository->findAll()
+            ]);
+        
+        }
+        
         $url = $this->adminUrlGenerator->setController(TrickCrudController::class)
         ->generateUrl();
-
+        
         return $this->redirect($url);
     }
-
+    
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
@@ -48,20 +67,32 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         /**
+         * account not verified
+         */
+        $user = $this->userRepository->findOneBy(['username'=>$this->getUser()->getUserIdentifier()]);
+
+        if ($user->getIsVerified() === false) {
+            $this->addFlash('warning', 'Vous devez confirmer votre compte, relevez vos emails (😉 dans le doute, vérifiez vos SPAMS)');
+            return [
+                yield MenuItem::subMenu('', 'fa-solid fa-arrow-rotate-left')->setSubItems([
+                    MenuItem::linkToUrl('retour au site', '', $this->generateUrl('app_home')),
+                ]),
+
+
+            ];
+        }
+
+        /**
          * Admin is user too -> remove link to 'Gestion de mon compte'
          */
         if ($this->isGranted('ROLE_USER') && !$this->isGranted('ROLE_ADMIN')) {
+
             // back to home
             yield MenuItem::section('Navigation');
             yield MenuItem::subMenu('', 'fa-solid fa-arrow-rotate-left')->setSubItems([
                 MenuItem::linkToUrl('retour au site', '', $this->generateUrl('app_home')),
             ]);
-            // categories
-            yield MenuItem::section('Categories');
-            yield MenuItem::subMenu('Categories', 'fa-solid fa-tags')->setSubItems([
-                MenuItem::linkToCrud('ajout d\'une catégorie', 'fas fa-plus', Category::class),
-                MenuItem::linkToCrud('Voir les catégories', 'fas fa-eye', Category::class),
-            ]);
+            
             // tricks
             yield MenuItem::section('Tricks');
             yield MenuItem::subMenu('', 'fa-solid fa-person-snowboarding')->setSubItems([
@@ -75,6 +106,7 @@ class DashboardController extends AbstractDashboardController
             ]);
         }
         if ($this->isGranted('ROLE_ADMIN')) {
+
             // back to home &
             yield MenuItem::section('Navigation');
             yield MenuItem::subMenu('', 'fa-solid fa-arrow-rotate-left')->setSubItems([
@@ -106,7 +138,7 @@ class DashboardController extends AbstractDashboardController
     }
 
     /**
-     * Default page all Uzers
+     * Default page all Users
      *
      * @return Actions
      */
