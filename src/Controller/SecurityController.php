@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
-use App\Form\ResetPassType;
+use App\Form\RenewPassType;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Form\ResetPasswordRequestFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -45,27 +48,30 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-    #[Route(path: '/forgotten-password', name: 'app_forgotten_pass')]
-    public function forgot(Request $request, UserRepository $userRepository): Response
-    {
-        $form = $this->createForm(ResetPassType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $userRepository->findOneBy([
-                'email' => $form->getData()['email']
-            ]);
-
-            if ($user === null) {
-                $this->addFlash('warning', 'Adresse Email inconnue');
-            }
-        }
-        return $this->render('security/forgotten_password.html.twig', ['emailForm' => $form->createView()]);
-    }
-
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
+
+    #[Route(path: '/ask-new-password', name: 'app_ask_new')]
+    public function askNew(Request $request, UserRepository $userRepository): Response
+    {
+        $form = $this->createForm(ResetPasswordRequestFormType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $userRepository->findOneBy(['email' => $form->getData()['email']]);
+            if (!$user) {
+                $this->addFlash('warning', 'Adresse Email inconnue');
+
+                return $this->redirectToRoute('app_ask_new');
+            }
+        }
+
+        return $this->render('security/forgotten_password.html.twig', [
+            'emailForm' => $form->createView()
+        ]);
     }
 }
