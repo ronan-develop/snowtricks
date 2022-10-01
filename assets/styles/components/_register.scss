@@ -33,13 +33,12 @@ article {
         }
 
         input[type=checkbox],
-        input[type=checkbox]#registration_form_agree:checked + label:before
-        {
+        input[type=checkbox]#registration_form_agree:checked + label::before {
 
             border-color: hsl(195deg 85% 41%);
             content: "\2713";
-            color: #666666!important;
-            background-color: hsl(195deg 85% 41%);
+            color: #666;
+            background-color: rgba(45, 203, 255, 0.527);
         }
 
         button#registration_form_Valider {
