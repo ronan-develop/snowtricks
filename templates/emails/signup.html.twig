@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %} {% block body %}
+
+{{ include("components/_navbar.html.twig") }}
+
+{% for flash in app.flashes('success') %}
+<div class="alert alert-success">{{ flash }}</div>
+
+<div class="container">
+  <h1>Welcome {{ user.username }}!</h1>
+
+  <p>
+    Vous êtes désormais enrigistré avec le mail suivant: <code>{{ user.email }}</code>
+  </p>
+</div>
+{% endfor %} 
+{{ include('components/_footer.html.twig') }}
+{% endblock body %}
