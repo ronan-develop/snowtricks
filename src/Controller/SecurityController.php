@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
+use App\Form\ResetPassType;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -29,7 +30,7 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        
+
         if ($error) {
             $session->getFlashBag()->add(
                 'warning',
@@ -42,6 +43,24 @@ class SecurityController extends AbstractController
 
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+    }
+
+    #[Route(path: '/forgotten-password', name: 'app_forgotten_pass')]
+    public function forgot(Request $request, UserRepository $userRepository): Response
+    {
+        $form = $this->createForm(ResetPassType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $userRepository->findOneBy([
+                'email' => $form->getData()['email']
+            ]);
+
+            if ($user === null) {
+                $this->addFlash('warning', 'Adresse Email inconnue');
+            }
+        }
+        return $this->render('security/forgotten_password.html.twig', ['emailForm' => $form->createView()]);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
