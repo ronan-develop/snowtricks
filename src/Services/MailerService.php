@@ -5,7 +5,6 @@ namespace App\Services;
 
 use Exception;
 use PHPMailer\PHPMailer\PHPMailer;
-use SymfonyCasts\Bundle\VerifyEmail\Model\VerifyEmailSignatureComponents;
 
 class MailerService
 {
