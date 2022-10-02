@@ -5,23 +5,29 @@ namespace App\EventSubscriber;
 use DateTimeZone;
 use App\Entity\Trick;
 use DateTimeImmutable;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 
 /**
- * @method Trick 
+ * @method Trick
  */
 class TrickEventSubscriber implements EventSubscriberInterface
 {
+    public function __construct(private SluggerInterface $slugger)
+    {}
     public static function getSubscribedEvents(): array
     {
         return [
             BeforeEntityPersistedEvent::class => [
-                'setTrickCreatedAt',
+                'setTrickCreatedAt'
             ],
             BeforeEntityUpdatedEvent::class => [
                 'setTrickUpdatedAt'
+            ],
+            BeforeEntityUpdatedEvent::class => [
+                'setSlug'
             ]
         ];
     }
@@ -48,7 +54,6 @@ class TrickEventSubscriber implements EventSubscriberInterface
         if ($trick->getImage() == null) {
             $trick->setImage('/uploads/tricks/300x200.gif');
         }
-        
     }
 
     public function setTrickUpdatedAt(BeforeEntityUpdatedEvent $event)
@@ -60,5 +65,18 @@ class TrickEventSubscriber implements EventSubscriberInterface
         }
 
         $trick->setUpdatedAt(new DateTimeImmutable("now", new DateTimeZone('Europe/Paris')));
+    }
+
+    function setSlug(BeforeEntityUpdatedEvent $event)
+    {
+        $trick = $event->getEntityInstance();
+
+        if (!$trick instanceof Trick) {
+            return;
+        }
+
+        $slug = $this->slugger->slug($trick->getName());
+
+        $trick->setSlug(strtolower($slug));
     }
 }
