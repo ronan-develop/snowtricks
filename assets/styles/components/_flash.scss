@@ -1,0 +1,20 @@
+body {
+
+    .flash-warning {
+
+        background-color: $danger;
+        text-align: center;
+    }
+
+    .alert-success {
+
+        background-color: $success;
+        text-align: center;
+    }
+
+    .alert-danger {
+
+        background-color: $closeModal;
+        text-align: center;
+    }
+}

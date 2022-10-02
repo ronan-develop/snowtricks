@@ -1,20 +1,23 @@
 {% extends 'base.html.twig' %} {% block title %}Connexion{% endblock %} {% block
 body %}
-{{ include('components/_navbar.html.twig') }}
+{{ include("components/_navbar.html.twig") }}
+
+{% for flash in app.flashes('warning') %}
+<div class="alert alert-danger">{{ flash }}</div>
+{% endfor %}
 <main class="container">
   <form method="post">
     <div class="message">
       {% if app.user %}
-    <div class="mb-3">
-      Vous êtes désormais connecté comme {{ app.user.userIdentifier }},
-      <a href="{{ path('app_logout') }}">Logout</a>
-    </div>
-    {% endif %}
-    {% if error %}
-    <div class="alert alert-danger">
-      {{ error.messageKey|trans(error.messageData, 'security') }}
-    </div>
-    {% endif %}
+      <div class="mb-3">
+        Vous êtes désormais connecté comme {{ app.user.userIdentifier }},
+        <a href="{{ path('app_logout') }}">Logout</a>
+      </div>
+      {% endif %} {% if error %}
+      <div class="alert alert-danger">
+        {{ error.messageKey|trans(error.messageData, 'security') }}
+      </div>
+      {% endif %}
     </div>
 
     <article>
@@ -47,9 +50,11 @@ body %}
       />
 
       <button class="btn btn-lg btn-primary" type="submit">Connexion</button>
+
+      <a href="{{ path('app_ask_new') }}" class="forgotten-password">Mot de pase oublié</a>
     </article>
   </form>
 </main>
 
-{{ include('components/_footer.html.twig') }}
+{{ include("components/_footer.html.twig") }}
 {% endblock %}

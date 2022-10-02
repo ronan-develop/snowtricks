@@ -5,17 +5,37 @@ form {
     align-items: center;
     flex-direction: column;
 
+
+    div {
+
+        li {
+            padding: 1rem;
+            font-size: 0.8rem;
+            color: $closeModal;
+        }
+
+        ul {
+
+            li {
+
+                text-shadow: $shadow-form-text;
+            }
+        }
+    }
+
     h2 {
 
         color: white;
     }
-    
+
     article {
 
         // /!\reset default
         background: none;
         // /!\reset default
         background-image: url('../../img/puff.jpg');
+
+
 
         input {
 
@@ -31,12 +51,12 @@ form {
         }
 
         button {
-            
+
             transition: all 1.5s ease-in-out;
             background-color: $black;
             border: none;
 
-            &:hover{
+            &:hover {
 
                 background-color: white;
                 color: $black;
@@ -46,7 +66,7 @@ form {
 }
 
 .comment-card {
-    
+
     box-shadow: none;
     width: 33vw;
 }
