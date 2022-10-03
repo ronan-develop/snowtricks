@@ -1,16 +1,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/93f95b3c1ec743c98f2da2afbb245c04)](https://www.codacy.com?utm_source=gitlab.com&utm_medium=referral&utm_content=ron2cuba/snowtricks&utm_campaign=Badge_Grade)
-[![First Reposityory](https://img.shields.io/badge/First%20repository-1abc9c.svg)](https://gitlab.com/ron2cuba/p6_snowtricks)
 
 # Snowtricks
 
-Pourquoi deux repository ?
-
-Pour vous permettre de suivre la timeline de tous le commits car dans la premiere
-version j'ai rencontré un souci avec le versioning de la base de donnée du à :
-
-```bash
-git reset --hard
-```
 ## Installation
 L'insatllation du projet et de ses dépendances se fait grâce aux commandes :
 
@@ -37,14 +28,6 @@ Lancer ensuite les migrations pour créer les colonnes de la base de donnée Mys
 ```bash
 doctrine:migrations:migrate
 ```
-
-Lancer les fixtures, pour la peupler avec quelques data grâce au
-[Doctrine Fixtures Bundle](https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html)
-faisant partie des dependances
-
-```bash
-php bin/console doctrine:fixtures:load
-``` 
 
 ## Outils
 
@@ -87,3 +70,56 @@ Les commandes sont disponilbles dans le fichier `package.json`
 Le micro framework css [`picocss`](https://picocss.com/) est importé comme
 dépendances grâce à NPM tout comme [SassLoader](https://webpack.js.org/loaders/sass-loader/)
 et [WebpackEncore](https://symfony.com/doc/current/frontend.html)
+
+## Database
+
+Il vous est possible de peupler la base de données, avec un jeu de data d'exemple.
+IL est présent dans le fichier: `snowtrick.sql`. Por ce faire dans `phpMyAdmin`
+cliquez sur SQL et coller le contenu de ce fichier.
+
+## EasyAdmin Bundle
+
+le backoffice a été implémenté avec le package [EasyAdmin](https://symfony.com/bundles/EasyAdminBundle/current/index.html)
+
+## Routes
+
+```bash
+php bin/console debug:router
+
+ -------------------------- -------- -------- ------ ----------------------------------- 
+  Name                       Method   Scheme   Host   Path                               
+ -------------------------- -------- -------- ------ ----------------------------------- 
+  admin                      ANY      ANY      ANY    /admin
+  app_category               ANY      ANY      ANY    /category
+  app_comment                ANY      ANY      ANY    /comment
+  app_home                   ANY      ANY      ANY    /
+  app_register               ANY      ANY      ANY    /register
+  app_verify_email           ANY      ANY      ANY    /verify
+  app_login                  ANY      ANY      ANY    /login
+  app_logout                 ANY      ANY      ANY    /logout
+  app_ask_new                ANY      ANY      ANY    /ask-new-password
+  app_reset_password         ANY      ANY      ANY    /reset_password/{token}
+  app_terms                  ANY      ANY      ANY    /terms
+  app_trick                  ANY      ANY      ANY    /trick/{slug}
+  app_delete_trick           ANY      ANY      ANY    /tricks/{slug}/delete
+  app_media                  ANY      ANY      ANY    /see-medias/{slug}
+ -------------------------- -------- -------- ------ -----------------------------------
+```
+
+## Users (pré-enrigistrés)
+
+Pseudo | Mot de passe | statut | acces Back-office | compte vérifié
+ :--: | :--: | :--: | :--: | :--:
+Admin | password | admin | ✔ | ✔
+Bob | password | user | ❌ | ❌
+Bill | password | user | ❌ | ❌
+ron2cuba | password | user | ✔ | ✔
+
+### Droits
+- user: 
+
+peut modifier son compte, créer/modifier/supprimmer des tricks
+- admin: 
+
+peut modifier tous les comptes, créer/modifier/supprimmer des tricks,
+ créer/modifier/supprimmer des catégories
