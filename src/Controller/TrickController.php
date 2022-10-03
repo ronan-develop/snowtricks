@@ -37,10 +37,13 @@ class TrickController extends AbstractController
         PaginatorInterface $paginator
     ): Response {
         $slug = $request->get('slug');
-        $trick = $trickRepository->findOneBy(['slug'=>$slug]);
+        $trick = $trickRepository->findOneBy(['slug' => $slug]);
 
-        $data = $commentRepository->findBy(['trick' => $this->trickRepository->findOneBy(['slug' => $slug])]);
-
+        $data = $commentRepository->findBy(['trick' => $this->trickRepository->findOneBy([
+            'slug' => $slug,
+        ])],
+        ['createdAt' => 'desc']
+    );
         $comments = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),

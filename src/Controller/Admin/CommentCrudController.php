@@ -23,13 +23,13 @@ class CommentCrudController extends AbstractCrudController
             ->setLabel("nouvelle catégorie")
             ;
         })
-        ->update(Crud::PAGE_INDEX, Action::DETAIL, function(Action $action){
+        ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action) {
             return $action->setIcon('fa-solid fa-eye');
         })
-        ->update(Crud::PAGE_INDEX, Action::DELETE, function(Action $action){
+        ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
             return $action->setIcon('fa-solid fa-trash');
         })
-        ->update(Crud::PAGE_INDEX, Action::EDIT, function(Action $action){
+        ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
             return $action->setIcon('fa-solid fa-gears');
         });
     }
