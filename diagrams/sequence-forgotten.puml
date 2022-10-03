@@ -10,7 +10,79 @@ skinparam class {
 
 header ""
 
+TITLE "Sequence forgotten password"@startuml
+skinparam backgroundcolor AntiqueWhite/#EBAF10
+scale 650 width
+
+skinparam class {
+    BackgroundColor #F2621F
+    ArrowColor #631FF2
+    BorderColor #DB2790
+}
+
+header ""
+
 TITLE "Sequence forgotten password"
+
+actor ConnectedUser
+
+box "Application" #F7F2E0
+
+participant System #FFBBBB
+database Database #DarkSalmon
+participant Mailer #Salmon
+
+ConnectedUser -> System: Browse forgotten password
+System --> ConnectedUser: Display reset form
+
+alt #green valid form
+ConnectedUser -> System: submit
+activate System #Salmon
+System -> Database: Request to find user
+activate Database #DarkSalmon
+Database --> System: Response: 200
+deactivate Database
+System -> Database: Request a token for user
+activate Database #DarkSalmon
+Database -> System : Reponse :200
+deactivate Database
+System -> ConnectedUser: display notification
+System -> Mailer: ask for email
+activate Mailer #SaddleBrown
+Mailer -> System: Email ready
+deactivate Mailer
+System -> ConnectedUser: Email send
+ConnectedUser -> System: click on link
+activate System
+System -> System: token valid ?
+System -> ConnectedUser: display form to change password
+deactivate System
+ConnectedUser --> System: submit new password
+System ->Database: save new password
+Database --> System: Reponse 200
+System --> ConnectedUser: display form to connect
+ConnectedUser -> System: fill form
+System -> ConnectedUser: display backoffice & notify password is changed
+deactivate System
+
+else #red invalid form
+ConnectedUser -> System: submit
+activate System #Salmon
+System --> ConnectedUser : Display fields in errors
+deactivate System
+else #red wrong email
+ConnectedUser -> System: submit
+activate System #Salmon
+System --> ConnectedUser : Display email not registered
+deactivate System
+else #red invalid Token
+ConnectedUser -> System: submit
+activate System #Salmon
+System --> ConnectedUser : Display token is expirazte
+deactivate System
+
+end
+@enduml
 
 actor ConnectedUser
 
@@ -36,8 +108,14 @@ Database -> System : Reponse :200
 deactivate Database
 System -> Mailer: Request send Email
 activate Mailer #SaddleBrown
-Mailer --> System: Response 200
-Mailer --> ConnectedUser: Send link to reset
+Mailer --> System: prepare email (reponse 200)
+System --> ConnectedUser: Send Email
+ConnectedUser -> System: click on email link
+System --> ConnectedUser: display form
+ConnectedUser --> System: submit new password
+System ->Database: save new password
+Database --> System: Reponse 200
+System --> ConnectedUser: display form to connect
 deactivate Mailer
 deactivate System
 
@@ -45,6 +123,13 @@ else #red invalid form
 ConnectedUser -> System: submit
 activate System #Salmon
 System --> ConnectedUser : Display fields in errors
+deactivate System
+
+else #red wrong email
+
+ConnectedUser -> System: submit
+activate System #Salmon
+System --> ConnectedUser : Display email not registered
 deactivate System
 
 end
