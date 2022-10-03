@@ -29,7 +29,7 @@ class DashboardController extends AbstractDashboardController
         private TrickRepository $trickRepository
     ) {
     }
-    
+
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
@@ -39,21 +39,19 @@ class DashboardController extends AbstractDashboardController
         $user = $this->userRepository->findOneBy(['username'=>$this->getUser()->getUserIdentifier()]);
 
         if ($user->getIsVerified() === false) {
-            
             $this->addFlash('warning', 'Vous devez confirmer votre compte, relevez vos emails (😉 dans le doute, vérifiez vos SPAMS)');
 
             return $this->render('home/index.html.twig', [
                 'tricks'=> $this->trickRepository->findAll()
             ]);
-        
         }
-        
+
         $url = $this->adminUrlGenerator->setController(TrickCrudController::class)
         ->generateUrl();
-        
+
         return $this->redirect($url);
     }
-    
+
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
@@ -79,8 +77,6 @@ class DashboardController extends AbstractDashboardController
                 yield MenuItem::subMenu('', 'fa-solid fa-arrow-rotate-left')->setSubItems([
                     MenuItem::linkToUrl('retour au site', '', $this->generateUrl('app_home')),
                 ]),
-
-
             ];
         }
 
@@ -94,7 +90,7 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::subMenu('', 'fa-solid fa-arrow-rotate-left')->setSubItems([
                 MenuItem::linkToUrl('retour au site', '', $this->generateUrl('app_home')),
             ]);
-            
+
             // tricks
             yield MenuItem::section('Tricks');
             yield MenuItem::subMenu('', 'fa-solid fa-person-snowboarding')->setSubItems([
