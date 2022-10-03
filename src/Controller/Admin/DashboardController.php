@@ -7,15 +7,17 @@ use App\Entity\Trick;
 use App\Entity\Comment;
 use App\Entity\Category;
 use App\Repository\UserRepository;
-use App\Controller\Admin\TrickCrudController;
 use App\Repository\TrickRepository;
+use App\Controller\Admin\TrickCrudController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use Symfony\Component\Security\Core\User\UserInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
@@ -115,7 +117,7 @@ class DashboardController extends AbstractDashboardController
             // comments
             yield MenuItem::section('Commentaires');
             yield MenuItem::subMenu("Commentaires", "fas fa-comments")->setSubItems([
-                MenuItem::linkToCrud('Voir tout', '', Comment::class)->setAction(Crud::PAGE_NEW)
+                MenuItem::linkToCrud('Voir tout', '', Comment::class)->setAction(Crud::PAGE_INDEX)
             ]);
             // users
             yield MenuItem::section(('Gestion des Utilisateurs'));
@@ -135,6 +137,15 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToCrud('Voir les Tricks', 'fas fa-eye', Trick::class)
             ]);
         }
+    }
+
+    /**
+     * @param UserInterface|User $user
+     */
+    public function configureUserMenu(UserInterface $user): UserMenu
+    {
+        return parent::configureUserMenu($user)
+            ->setAvatarUrl($user->getAvatar());
     }
 
     /**
