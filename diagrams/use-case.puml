@@ -24,9 +24,10 @@ connect to your account
 fill in the login form
 "
 
+u -left- (browse page)
 u -left- (add a trick)
 (message on tricks) -down-  u 
-u -right- (list of all his trick)
+u -right- (list & handle tricks in back office)
 u -up- (update bio)
 a -up-|> u
 a -up- moderate
@@ -34,7 +35,7 @@ a -up- moderate
 moderate ..> (Users): handle
 moderate ..> (content): handle
 
-connection <.. (list of all his tricks): include <
+connection <.. (list & handle tricks in back office): include <
 connection <.. (add a trick): include <
 connection <.. (message on tricks):< include
 connection <.. (update bio) :< include
