@@ -1,4 +1,4 @@
-@startuml
+@startuml forgotten password
 skinparam backgroundcolor AntiqueWhite/#EBAF10
 scale 650 width
 
@@ -10,7 +10,7 @@ skinparam class {
 
 header ""
 
-TITLE "Sequence forgotten password"@startuml
+TITLE "Sequence forgotten password"
 skinparam backgroundcolor AntiqueWhite/#EBAF10
 scale 650 width
 
@@ -42,7 +42,10 @@ System -> Database: Request to find user
 activate Database #DarkSalmon
 Database --> System: Response: 200
 deactivate Database
-System -> Database: Request a token for user
+activate System
+System -> System: create a token
+System -> Database: Persist token for user
+deactivate System
 activate Database #DarkSalmon
 Database -> System : Reponse :200
 deactivate Database
@@ -54,7 +57,10 @@ deactivate Mailer
 System -> ConnectedUser: Email send
 ConnectedUser -> System: click on link
 activate System
-System -> System: token valid ?
+System -> Database: check token
+activate Database #DarkSalmon
+Database -> System: token ok
+deactivate Database
 System -> ConnectedUser: display form to change password
 deactivate System
 ConnectedUser --> System: submit new password
@@ -70,15 +76,15 @@ ConnectedUser -> System: submit
 activate System #Salmon
 System --> ConnectedUser : Display fields in errors
 deactivate System
-else #red wrong email
+else #yellow wrong email
 ConnectedUser -> System: submit
 activate System #Salmon
 System --> ConnectedUser : Display email not registered
 deactivate System
-else #red invalid Token
+else #gray invalid Token
 ConnectedUser -> System: submit
 activate System #Salmon
-System --> ConnectedUser : Display token is expirazte
+System --> ConnectedUser : Display token is expirate
 deactivate System
 
 end
