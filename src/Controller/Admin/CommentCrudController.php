@@ -6,6 +6,9 @@ use App\Entity\Comment;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class CommentCrudController extends AbstractCrudController
@@ -19,10 +22,8 @@ class CommentCrudController extends AbstractCrudController
     {
         return $actions
         ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
-            return $action->setIcon('fa-solid fa-folder-open')
-            ->setLabel("nouvelle catégorie")
-            ;
-        })
+            return $action;
+        })->remove(Crud::PAGE_INDEX, Action::NEW)
         ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action) {
             return $action->setIcon('fa-solid fa-eye');
         })
@@ -34,6 +35,12 @@ class CommentCrudController extends AbstractCrudController
         });
     }
 
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+        ->add(EntityFilter::new('user', 'Utilisateur'))
+        ->add(EntityFilter::new('trick', 'Figure'));
+    }
     /*
     public function configureFields(string $pageName): iterable
     {
