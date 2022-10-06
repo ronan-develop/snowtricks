@@ -84,16 +84,6 @@ class TrickController extends AbstractController
         ]);
     }
 
-    #[Route('/tricks', name: 'app_tricks')]
-    public function tricks(TrickRepository $trickRepository, Request $request): Response
-    {
-        $tricks = $trickRepository->findAll();
-
-        return $this->render('tricks/index.html.twig', [
-            'tricks' => $tricks,
-        ]);
-    }
-
     #[Route('/tricks/{slug}/delete', name: 'app_delete_trick')]
     public function delete(Request $request, EntityManagerInterface $em): JsonResponse
     {
