@@ -30,6 +30,7 @@ class TrickController extends AbstractController
 
     #[Route('/trick/{slug}', name: 'app_trick')]
     public function index(
+        Trick $trick,
         TrickRepository $trickRepository,
         CommentRepository $commentRepository,
         UserRepository $userRepository,
@@ -37,7 +38,12 @@ class TrickController extends AbstractController
         PaginatorInterface $paginator
     ): Response {
         $slug = $request->get('slug');
+        
         $trick = $trickRepository->findOneBy(['slug' => $slug]);
+
+        if (!$trick) {
+            throw $this->createNotFoundException('Trick '. $slug . ' non trouvé');
+        }
 
         $data = $commentRepository->findBy(['trick' => $this->trickRepository->findOneBy([
             'slug' => $slug,
@@ -81,16 +87,6 @@ class TrickController extends AbstractController
             'comments' => $commentRepository->findBy(['trick' => $trick]),
             'date_comment' => '',
             'comments' => $comments
-        ]);
-    }
-
-    #[Route('/tricks', name: 'app_tricks')]
-    public function tricks(TrickRepository $trickRepository, Request $request): Response
-    {
-        $tricks = $trickRepository->findAll();
-
-        return $this->render('tricks/index.html.twig', [
-            'tricks' => $tricks,
         ]);
     }
 

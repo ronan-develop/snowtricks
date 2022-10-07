@@ -93,7 +93,7 @@ class TrickCrudController extends AbstractCrudController
 
         yield TextField::new('name', 'Nom du trick');
         yield SlugField::new('slug')->setTargetFieldName("name")
-        ->setUnlockConfirmationMessage("Le Slug est généré automatiquement, mais il peut etre modifié");
+        ->setUnlockConfirmationMessage("Le Slug est généré automatiquement, mais il peut être modifié");
 
         yield TextareaField::new('Description');
 
@@ -139,7 +139,6 @@ class TrickCrudController extends AbstractCrudController
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
-        ->add(EntityFilter::new('user', 'Utilisateur'))
         ->add(TextFilter::new('name', 'Nom'))
         ->add(EntityFilter::new('category', 'Catégorie'));
     }

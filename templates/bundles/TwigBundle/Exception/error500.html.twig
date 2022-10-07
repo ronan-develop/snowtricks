@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+{% block title %}
+    erreur serveur
+{% endblock title %}
+{% block body %}
+    {% include "components/_navbar.html.twig" %}
+    <div class="container">
+        <h1>Ooops quelque chose s'est mal passé ... 😥</h1>
+        <p>Le serveur à rencontré un problème</p>
+    </div>
+    {% include "components/_footer.html.twig" %}
+{% endblock body %}

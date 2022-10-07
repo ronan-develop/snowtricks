@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+{% block title %}
+    page non trouvée
+{% endblock title %}
+{% block body %}
+    {% include "components/_navbar.html.twig" %}
+    <div class="container">
+        <h1>Cette page n'existe pas ... 😥</h1>
+        <p>La page demandée n'a pas été trouvée ou n'existe plus.</p>
+    </div>
+    {% include "components/_footer.html.twig" %}
+{% endblock body %}
