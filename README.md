@@ -31,12 +31,12 @@ doctrine:migrations:migrate
 
 ## Outils
 
-Requirements | Nom | - |
- --- | --- | --- |
-<img src="./md/php.png" width="50"> | PHP | v8.1
-<img src="./md/composer.png" width="50">| Composer | v2.4.1
-<img src="./md/symfony.ico" width="50">| Symfony | v6.1
-<img src="./md/npm.png" width="50">| NPM | v8.17.0
+| Requirements                             | Nom      | -       |
+|------------------------------------------|----------|---------|
+| <img src="./md/php.png" width="50">      | PHP      | v8.1    |
+| <img src="./md/composer.png" width="50"> | Composer | v2.4.1  |
+| <img src="./md/symfony.ico" width="50">  | Symfony  | v6.1    |
+| <img src="./md/npm.png" width="50">      | NPM      | v8.17.0 |
 
 ## Assets management
 
@@ -106,20 +106,21 @@ php bin/console debug:router
  -------------------------- -------- -------- ------ -----------------------------------
 ```
 
-## Users (pré-enrigistrés)
-
-Pseudo | Mot de passe | statut | acces Back-office | compte vérifié
- :--: | :--: | :--: | :--: | :--:
-Admin | password | admin | ✔ | ✔
-Bob | password | user | ❌ | ❌
-Bill | password | user | ❌ | ❌
-ron2cuba | password | user | ✔ | ✔
+## Users (pré-enregistrés)
+|  Pseudo  | Mot de passe |     Statut     | Accès au BackOffice | Comptes vérifiés |
+|:--------:|:------------:|:--------------:|:-------------------:|:----------------:|
+|  Admin   |   password   | administrateur |          ✔          |        ✔         |
+|   Bob    |   password   |  utilisateur   |          ❌          |        ❌         |
+|   Bill   |   password   |      user      |          ❌          |        ❌         |
+| ron2cuba |   password   |      user      |          ✔          |        ✔         |
 
 ### Droits
 - user: 
 
-peut modifier son compte, créer/modifier/supprimmer des tricks
+Peut modifier son compte, créer/modifier/supprimmer des tricks
+
 - admin: 
 
-peut modifier tous les comptes, créer/modifier/supprimmer des tricks,
+
+Peut modifier tous les comptes, créer/modifier/supprimmer des tricks,
  créer/modifier/supprimmer des catégories
