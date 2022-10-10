@@ -2,16 +2,15 @@
 
 namespace App\Controller;
 
-use DateTimeZone;
 use App\Entity\Trick;
 use Twig\Environment;
-use DateTimeImmutable;
-use App\Entity\Comment;
 use App\Form\CommentFormType;
+use App\Services\CommentService;
 use App\Repository\UserRepository;
 use App\Repository\TrickRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,9 +32,9 @@ class TrickController extends AbstractController
         Trick $trick,
         TrickRepository $trickRepository,
         CommentRepository $commentRepository,
-        UserRepository $userRepository,
         Request $request,
-        PaginatorInterface $paginator
+        PaginatorInterface $paginator,
+        EntityManagerInterface $em
     ): Response {
         $slug = $request->get('slug');
         
@@ -49,7 +48,8 @@ class TrickController extends AbstractController
             'slug' => $slug,
         ])],
         ['createdAt' => 'desc']
-    );
+        );
+
         $comments = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),
@@ -57,22 +57,30 @@ class TrickController extends AbstractController
         );
 
         if ($this->getUser()) {
-            $currentUser = $this->getUser()->getUserIdentifier();
-            $user = $userRepository->findOneBy(['username' => $currentUser]);
 
-            $comment = new Comment($trick);
-            $form = $this->createForm(CommentFormType::class, $comment);
+            $commentService = new CommentService(
+                $this->getUser(),
+                $slug,
+                $this->trickRepository,
+                $em
+            );
+
+            $form = $this->createForm(CommentFormType::class, $commentService->comment);
+
             $form->handleRequest($request);
-            $date_comment = $comment->getCreatedAt();
+            
+            if($form->isSubmitted() && $form->isValid()){
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $comment
-                ->setCreatedAt(new DateTimeImmutable("now", new DateTimeZone('Europe/Paris')))
-                ->setUser($user);
-
-                $this->entityManager->persist($comment);
-                $this->entityManager->flush();
+                try {
+                    $commentService->handleForm();
+                    $this->addFlash('success', 'Commentaire correctement ajouté');
+                } catch (Exception $e) {
+                    $this->addFlash(
+                        'error', 'oops! quelque chose s\'est mal passé sur le serveur : '.$e->getMessage()
+                    );
+                }
             }
+
             return $this->render('trick/index.html.twig', [
                 'trick' => $trick,
                 'categories' =>  $trick->getCategory(),
@@ -98,8 +106,6 @@ class TrickController extends AbstractController
         $repo = $em->getRepository(Trick::class);
 
         $trick = $repo->findOneBy(['slug' => $slug]);
-
-        //todo retirer les commentaires + try catch
 
         // not connected
         $user = $this->getUser();
