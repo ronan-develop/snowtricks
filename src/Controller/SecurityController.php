@@ -24,7 +24,7 @@ class SecurityController extends AbstractController
         if ($this->getUser()) {
             $session->getFlashBag()->add(
                 'warning',
-                'Vous êtes déjà connecté sous le pseudo '. $this->getUser()->getUserIdentifier()
+                'Vous êtes déjà connecté sous le pseudo ' . $this->getUser()->getUserIdentifier()
             );
 
             return $this->redirectToRoute('app_home');
@@ -42,7 +42,7 @@ class SecurityController extends AbstractController
                 $error->getMessage()
             );
             foreach ($session->getFlashBag()->get('warning', []) as $message) {
-                echo '<div class="flash-warning">'.$message.'</div>';
+                echo '<div class="flash-warning">' . $message . '</div>';
             }
         }
 
@@ -58,11 +58,12 @@ class SecurityController extends AbstractController
 
     #[Route(path: '/ask-new-password', name: 'app_ask_new')]
     public function askNew(
-        Request $request,
-        UserRepository $userRepository,
+        Request                 $request,
+        UserRepository          $userRepository,
         TokenGeneratorInterface $tokenGenerator,
-        EntityManagerInterface $em,
-    ): Response {
+        EntityManagerInterface  $em,
+    ): Response
+    {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
 
         $form->handleRequest($request);
@@ -95,7 +96,7 @@ class SecurityController extends AbstractController
                     $user->getEmail(),
                     'Snowtricks : demande de mot de passe',
                     'Bonjour,<br>Votre demande de r&#xE9;initialisation de mot de passe a &#xE9;t&#xE9; effectu&#xE9;e.
-                    <br> Veuillez cliquer sur le lien suivant : <a href="'.$url.'"> lien de r&#xE9;initialisation</a>'
+                    <br> Veuillez cliquer sur le lien suivant : <a href="' . $url . '"> lien de r&#xE9;initialisation</a>'
                 );
 
             return $this->redirectToRoute('app_home');
@@ -110,11 +111,12 @@ class SecurityController extends AbstractController
 
     #[Route(path: '/reset_password/{token}', name: 'app_reset_password')]
     public function resetPassword(
-        Request $request,
-        string $token,
-        UserRepository $userRepository,
+        Request                $request,
+        string                 $token,
+        UserRepository         $userRepository,
         EntityManagerInterface $em
-    ) {
+    )
+    {
         $token = $request->get('token');
 
         $user = $userRepository->findOneBy(['reset_token' => $token]);
@@ -140,7 +142,7 @@ class SecurityController extends AbstractController
             $user->setPassword($hash);
 
             $em->persist($user);
-            $em->flush();            
+            $em->flush();
 
             $this->addFlash('success', 'Mot de passe réinitialisé ! 🔑');
 
