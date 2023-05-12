@@ -13,6 +13,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CommentService
 {
+    // todo : to prevent  deprecated warning i must not declare properties dynamically
+    // do setters
     public function __construct(
         User $user,
         string $slug,
