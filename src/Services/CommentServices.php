@@ -3,6 +3,7 @@
 
 namespace App\Services;
 
+use App\Repository\CommentRepository;
 use DateTimeZone;
 use App\Entity\User;
 use DateTimeImmutable;
@@ -11,7 +12,7 @@ use App\Form\CommentFormType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class CommentService
+class CommentServices
 {
     // todo : to prevent  deprecated warning i must not declare properties dynamically
     // do setters
@@ -42,6 +43,15 @@ class CommentService
 
         $this->em->persist($this->comment);
         $this->em->flush();
+    }
+
+    public function SortedDescComments(CommentRepository $commentRepository)
+    {
+        return $commentRepository->findBy(['trick' => $this->trickRepository->findOneBy([
+            'slug' => $slug,
+        ])],
+            ['createdAt' => 'desc']
+        );
     }
 
     private function setCreatedAt()
